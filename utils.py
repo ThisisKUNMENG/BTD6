@@ -4,6 +4,12 @@ from pyautogui import moveTo, click
 import pyautogui
 from pydirectinput import press
 from PIL.ImageGrab import grab
+import json
+
+with open("maps.json", 'r') as f:
+    maps = json.load(f)
+
+modes = ["deflation", "easy standard"]
 
 
 def to_front():
@@ -15,9 +21,50 @@ def to_front():
     sleep(0.5)
 
 
+def _to_map(m):
+    page = m["page"] - 1
+    # to level
+    if m["level"] == "expert":
+        moveTo(left + 1111, top + 850)
+        sleep(0.2)
+        click()
+        sleep(2)
+    # to page
+    while page != 0:
+        click()
+        sleep(2)
+        page -= 1
+    # get in map
+    if m["pos"] == 2:
+        moveTo(left + 813, top + 238)
+        sleep(2)
+        click()
+        sleep(1)
+
+
+def _to_mode(mode):
+    if mode == "deflation":
+        moveTo(left + 530, top + 390)
+        sleep(2)
+        click()
+        sleep(1)
+        moveTo(left + 1077, top + 416)
+        sleep(2)
+        click()
+        sleep(9)
+        click()
+        sleep(5)
+
+
 class Game:
-    def __init__(self, t):
+    def __init__(self, m, mode, t):
         self.t = t
+        if m not in maps:
+            sys.exit(301)
+        if mode not in modes:
+            sys.exit(302)
+        self.map = maps[m]
+        self.mode = mode
 
     @staticmethod
     def game_play():
@@ -50,29 +97,18 @@ class Game:
         sleep(0.5)
         click()
         sleep(4)
-        moveTo(left+1111, top+850)
-        sleep(0.2)
-        click()
-        sleep(2)
-        click()
-        sleep(2)
-        moveTo(left+813, top+238)
-        sleep(2)
-        click()
+
+    def to_map(self):
+        _to_map(self.map)
         sleep(1)
-        moveTo(left+530, top+390)
-        sleep(2)
-        click()
-        sleep(1)
-        moveTo(left+1077, top+416)
-        sleep(2)
-        click()
-        sleep(9)
-        click()
-        sleep(5)
+
+    def to_mode(self):
+        _to_mode(self.mode)
 
     def ready(self):
-        pass
+        self.play()
+        self.to_map()
+        self.to_mode()
 
     def check_upgrade(self):
         sleep(0.1)

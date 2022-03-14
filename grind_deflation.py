@@ -30,11 +30,11 @@ def game():
 
 if __name__ == "__main__":
     to_front()
-    dark_castle = Game(380)
+    dark_castle = Game("dark castle", "deflation", 380)
     loop = 1
     while loop < 100:
         print("repeated times: " + str(loop))
-        dark_castle.play()
+        dark_castle.ready()
         game()
         dark_castle.check_upgrade()
         dark_castle.game_exit()

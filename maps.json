@@ -1,0 +1,14 @@
+{
+  "monkey meadow":
+  {
+    "level": "beginner",
+    "page": 1,
+    "pos": 1
+  },
+  "dark castle":
+  {
+    "level": "expert",
+    "page": 2,
+    "pos": 2
+  }
+}

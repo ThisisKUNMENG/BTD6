@@ -10,7 +10,7 @@ import json
 
 
 if __name__ == '__main__':
+    pass
 
 
-    moveTo(left+430, top+400)
 
