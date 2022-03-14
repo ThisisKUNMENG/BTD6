@@ -57,7 +57,7 @@ class Tower:
         moveTo(self.x, self.y)
         sleep(0.3)
         click()
-        sleep(0.1)
+        sleep(0.2)
         if "upgrade" in kwargs.keys() or "targeting" in kwargs.keys():
             click()
             sleep(0.1)
@@ -66,7 +66,7 @@ class Tower:
             if "targeting" in kwargs.keys():
                 self.targeting(kwargs["targeting"])
             click()
-            sleep(0.1)
+            sleep(0.3)
 
     def upgrade_to(self, path1=0, path2=0, path3=0):
         sleep(0.1)
@@ -80,15 +80,15 @@ class Tower:
 
     def place_when(self, tower, path):
         sleep(0.1)
-        moveTo(self.x, self.y)
+        moveTo(tower.x, tower.y)
         sleep(0.1)
         click()
         sleep(0.1)
-        while check_for_upgrade(path, self.lr):
+        while check_for_upgrade(path, tower.lr):
             sleep(5)
         click()
         sleep(0.1)
-        tower.place()
+        self.place()
         sleep(0.1)
 
     def upgrade_with_order(self, order):
@@ -124,6 +124,19 @@ class Tower:
             press(hotkey["target"])
             sleep(0.05)
             to -= 1
+
+    def change_targeting(self, to):
+        sleep(0.1)
+        moveTo(self.x, self.y)
+        sleep(0.1)
+        click()
+        sleep(0.1)
+        while to != 0:
+            press(hotkey["target"])
+            sleep(0.05)
+            to -= 1
+        click()
+        sleep(0.1)
 
     def _upgrade(self, path1, path2, path3):
         while path1 != 0:
