@@ -15,12 +15,12 @@ def get_window():
         print(right - left, bottom - top)
     else:
         print("please open BTD6")
-        sys.exit(-1)
+        sys.exit(200)
     if right - left == 1616 and bottom - top == 939:
         pass
     else:
         print("please set the correct window size")
-        sys.exit(-1)
+        sys.exit(201)
     return left, top, right, bottom
 
 

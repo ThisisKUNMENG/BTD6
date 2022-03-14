@@ -1,4 +1,4 @@
-
+import sys
 from findwindow import *
 from utils import *
 from time import sleep
@@ -6,9 +6,36 @@ from pyautogui import moveTo, click
 import pyautogui
 from pydirectinput import press
 import json
+from PIL.ImageGrab import grab
 
 with open("hotkeys.json", 'r') as f:
     hotkey = json.load(f)
+
+
+def check_for_upgrade(path, lr):
+    y = 0
+    x = 0
+    if lr == "l":
+        x = 337
+    elif lr == "r":
+        x = 1354
+    else:
+        sys.exit(311)
+    if path == 1:
+        y = 450
+    elif path == 2:
+        y = 560
+    elif path == 3:
+        y = 680
+    else:
+        sys.exit(312)
+    color = grab().load()[left+x, top+y]
+    if color[2] > 80:
+        return True
+    elif color[2] < 50:
+        return False
+    else:
+        sys.exit(310)
 
 
 class Tower:
@@ -18,6 +45,10 @@ class Tower:
         self.name = name
         self.x = left + x
         self.y = top + y
+        if x >= 697:
+            self.lr = "l"
+        else:
+            self.lr = "r"
 
     def place(self, **kwargs):
         sleep(0.1)
@@ -47,6 +78,36 @@ class Tower:
         click()
         sleep(0.1)
 
+    def place_when(self, tower, path):
+        sleep(0.1)
+        moveTo(self.x, self.y)
+        sleep(0.1)
+        click()
+        sleep(0.1)
+        while check_for_upgrade(path, self.lr):
+            sleep(5)
+        click()
+        sleep(0.1)
+        tower.place()
+        sleep(0.1)
+
+    def upgrade_with_order(self, order):
+        sleep(0.1)
+        moveTo(self.x, self.y)
+        sleep(0.1)
+        click()
+        sleep(0.1)
+        for i in order:
+            sleep(0.3)
+            if i == 1:
+                self._upgrade(1, 0, 0)
+            if i == 2:
+                self._upgrade(0, 1, 0)
+            if i == 3:
+                self._upgrade(0, 0, 1)
+        click()
+        sleep(0.1)
+
     def sell(self):
         sleep(0.1)
         moveTo(self.x, self.y)
@@ -64,17 +125,22 @@ class Tower:
             sleep(0.05)
             to -= 1
 
-    @staticmethod
-    def _upgrade(path1, path2, path3):
+    def _upgrade(self, path1, path2, path3):
         while path1 != 0:
+            while check_for_upgrade(1, self.lr):
+                sleep(5)
             press(hotkey["path1"])
             sleep(0.05)
             path1 -= 1
         while path2 != 0:
+            while check_for_upgrade(2, self.lr):
+                sleep(5)
             press(hotkey["path2"])
             sleep(0.05)
             path2 -= 1
         while path3 != 0:
+            while check_for_upgrade(3, self.lr):
+                sleep(5)
             press(hotkey["path3"])
             sleep(0.05)
             path3 -= 1

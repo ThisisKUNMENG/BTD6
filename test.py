@@ -10,7 +10,12 @@ import json
 
 
 if __name__ == '__main__':
-    pass
+    x = 1354 + left
+    y = 680 + top
+    moveTo(x, y)
+    c = grab().load()[x, y]
+    print(c)
 
 
-
+# (34, 148, 0)
+# (34, 147, 0)
