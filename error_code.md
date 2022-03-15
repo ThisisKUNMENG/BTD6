@@ -6,3 +6,4 @@
 * 302: mode name error
 * 310: check for upgrade color error
 * 311, 312: check for upgrade input error
+* 400: ocr error

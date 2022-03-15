@@ -29,6 +29,8 @@ def game():
 
 
 if __name__ == "__main__":
+    # 9956 XP / MIN
+    # 6 MIN / GAME
     to_front()
     dark_castle = Game("dark castle", "deflation", 360)
     loop = 1
@@ -39,3 +41,5 @@ if __name__ == "__main__":
         dark_castle.check_upgrade()
         dark_castle.game_exit()
         loop += 1
+
+# 1935404

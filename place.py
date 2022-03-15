@@ -76,7 +76,7 @@ class Tower:
         sleep(0.1)
         self._upgrade(path1, path2, path3)
         click()
-        sleep(0.1)
+        sleep(0.2)
 
     def place_when(self, tower, path):
         sleep(0.1)
@@ -90,6 +90,25 @@ class Tower:
         sleep(0.1)
         self.place()
         sleep(0.1)
+
+    def place_money(self, amount, **kwargs):
+        """
+        a function to place tower when money is sufficient.
+
+        :param amount: how much money that are needed to place the tower
+        :param kwargs: upgrade or/and targeting
+        """
+        # will try to prefix the amount(price) according to the tower and difficulty
+        while get_money() < amount:
+            sleep(3)
+        if "upgrade" in kwargs.keys() and "targeting" in kwargs.keys():
+            self.place(upgrade=kwargs["upgrade"], targeting=kwargs["targeting"])
+        elif "upgrade" in kwargs.keys() and "targeting" not in kwargs.keys():
+            self.place(upgrade=kwargs["upgrade"])
+        elif "upgrade" not in kwargs.keys() and "targeting" in kwargs.keys():
+            self.place(targeting=kwargs["targeting"])
+        else:
+            self.place()
 
     def upgrade_with_order(self, order):
         sleep(0.1)

@@ -5,12 +5,16 @@ import pyautogui
 from pydirectinput import press
 from PIL.ImageGrab import grab
 import json
+import pytesseract
+import numpy as np
+import easyocr
 
 with open("maps.json", 'r') as f:
     maps = json.load(f)
 
 modes = ["deflation", "easy standard"]
 
+reader = easyocr.Reader(['en'], gpu = False)
 
 def to_front():
     moveTo(left+400, top+400)
@@ -125,5 +129,19 @@ class Game:
             press("space")
             sleep(0.05)
             tt -= 10
+
+
+def get_money():
+    c = grab(money)
+    im = np.array(c)
+    text = reader.readtext(im, allowlist="0123456789", detail=0)
+    m = 0
+    try:
+        m = int(text[0])
+    except Exception as e:
+        print("error ", text)
+        # sys.exit(400)
+    print("money:", m)
+    return m
 
 

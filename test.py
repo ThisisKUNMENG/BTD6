@@ -7,14 +7,15 @@ import pyautogui
 import pydirectinput
 from PIL.ImageGrab import grab
 import json
+import pytesseract
+import easyocr
+from PIL import Image
+import numpy as np
 
+reader = easyocr.Reader(['en'], gpu = False)
 
 if __name__ == '__main__':
-    x = 1354 + left
-    y = 680 + top
-    moveTo(x, y)
-    c = grab().load()[x, y]
-    print(c)
+    pass
 
 
 # (34, 148, 0)

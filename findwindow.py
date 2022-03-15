@@ -28,3 +28,5 @@ left, top, right, bottom = get_window()
 
 
 left = left + 7
+
+money = [left+288, top+46, left+380, top+84]
