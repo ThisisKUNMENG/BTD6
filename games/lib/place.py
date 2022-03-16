@@ -1,9 +1,6 @@
-import sys
-from findwindow import *
-from utils import *
+from games.lib.utils import *
 from time import sleep
 from pyautogui import moveTo, click
-import pyautogui
 from pydirectinput import press
 import json
 from PIL.ImageGrab import grab
@@ -98,7 +95,7 @@ class Tower:
         :param amount: how much money that are needed to place the tower
         :param kwargs: upgrade or/and targeting
         """
-        # will try to prefix the amount(price) according to the tower and difficulty
+        # TODO try to prefix the amount(price) according to the tower and difficulty
         while get_money() < amount:
             sleep(3)
         if "upgrade" in kwargs.keys() and "targeting" in kwargs.keys():

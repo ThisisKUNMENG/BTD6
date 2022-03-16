@@ -1,12 +1,4 @@
-from findwindow import *
-from utils import *
-from time import sleep
-from pyautogui import moveTo, press, click
-from pyautogui import leftClick
-import pyautogui
-import pydirectinput
-import datetime
-from place import *
+from lib.place import *
 
 sauda = Tower("hero", 702, 344)
 tack1 = Tower("tack", 701, 492)
@@ -17,7 +9,7 @@ alch2 = Tower("alch", 590, 500)
 sniper1 = Tower("sniper", 895, 775)
 
 
-def game():
+def balance_chimps():
     sauda.place()
     Game.game_play()
     sleep(5)
@@ -36,7 +28,7 @@ if __name__ == "__main__":
     # 11557.5 XP / MIN
     # 22 MIN / GAME
     to_front()
-    game()
+    balance_chimps()
 
 
 

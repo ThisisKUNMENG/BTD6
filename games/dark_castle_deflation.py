@@ -1,11 +1,4 @@
-from findwindow import *
-from utils import *
-from time import sleep
-from pyautogui import moveTo, press, click
-from pyautogui import leftClick
-import pyautogui
-import pydirectinput
-from place import *
+from lib.place import *
 
 ninja1 = Tower("ninja", 612, 399)
 ninja2 = Tower("ninja", 667, 406)
@@ -16,7 +9,7 @@ glue1 = Tower("glue", 430, 400)
 obyn = Tower("hero", 790, 404)
 
 
-def game():
+def dark_castle_deflation():
 
     ninja1.place(upgrade=[4, 0, 2])
     ninja2.place(upgrade=[4, 0, 2])

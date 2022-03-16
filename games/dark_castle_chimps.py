@@ -1,11 +1,4 @@
-from findwindow import *
-from utils import *
-from time import sleep
-from pyautogui import moveTo, press, click
-from pyautogui import leftClick
-import pyautogui
-import pydirectinput
-from place import *
+from lib.place import *
 
 dart1 = Tower("dart", 599, 586)
 sub1 = Tower("sub", 903, 608)
@@ -25,14 +18,13 @@ spike1 = Tower("spike", 852, 318)
 sub2 = Tower("sub", 917, 295)
 
 
-def game():
+def dark_castle_chimps():
+    # TODO replace place with place_money and change dart2 position
     dart1.place()
     sub1.place()
     Game.game_play()
-    if True:
-        dart2.place()
-    if True:
-        obyn.place()
+    dart2.place()
+    obyn.place()
     sub1.upgrade_with_order([1, 1, 3, 3])
     dart1.upgrade_to(path3=2)
     sub1.upgrade_to(path3=2)

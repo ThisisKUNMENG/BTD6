@@ -1,11 +1,9 @@
-from findwindow import *
+from games.lib.findwindow import *
 from time import sleep
 from pyautogui import moveTo, click
-import pyautogui
 from pydirectinput import press
 from PIL.ImageGrab import grab
 import json
-import pytesseract
 import numpy as np
 import easyocr
 
@@ -15,6 +13,7 @@ with open("maps.json", 'r') as f:
 modes = ["deflation", "easy standard"]
 
 reader = easyocr.Reader(['en'], gpu = False)
+
 
 def to_front():
     moveTo(left+400, top+400)
@@ -26,6 +25,7 @@ def to_front():
 
 
 def _to_map(m):
+    # TODO to be finished
     page = m["page"] - 1
     # to level
     if m["level"] == "expert":
@@ -47,6 +47,7 @@ def _to_map(m):
 
 
 def _to_mode(mode):
+    # TODO to be finished
     if mode == "deflation":
         moveTo(left + 530, top + 390)
         sleep(2)
