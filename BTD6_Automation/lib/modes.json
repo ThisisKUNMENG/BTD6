@@ -1,0 +1,72 @@
+{
+  "easy standard":
+  {
+    "difficulty": "easy",
+    "cord": [544, 517]
+  },
+  "primary":
+  {
+    "difficulty": "easy",
+    "cord": [808, 409]
+  },
+  "deflation":
+  {
+    "difficulty": "easy",
+    "cord": [1070, 409]
+  },
+  "medium standard":
+  {
+    "difficulty": "medium",
+    "cord": [544, 517]
+  },
+  "military":
+  {
+    "difficulty": "medium",
+    "cord": [808, 409]
+  },
+  "apopalypse":
+  {
+    "difficulty": "medium",
+    "cord": [1070, 409]
+  },
+  "reverse":
+  {
+    "difficulty": "medium",
+    "cord": [808, 650]
+  },
+  "hard standard":
+  {
+    "difficulty": "hard",
+    "cord": [544, 517]
+  },
+  "magic":
+  {
+    "difficulty": "hard",
+    "cord": [808, 409]
+  },
+  "double hp moabs":
+  {
+    "difficulty": "hard",
+    "cord": [1070, 409]
+  },
+  "ABR":
+  {
+    "difficulty": "hard",
+    "cord": [808, 650]
+  },
+  "impoppable":
+  {
+    "difficulty": "impoppable",
+    "cord": [1070, 650]
+  },
+  "half cash":
+  {
+    "difficulty": "hard",
+    "cord": [1350, 409]
+  },
+  "chimps":
+  {
+    "difficulty": "hard",
+    "cord": [1350, 650]
+  }
+}

@@ -1,4 +1,6 @@
-from lib.place import *
+from BTD6_Automation import *
+
+dark_castle = Game("dark castle", "impoppable", 360)
 
 dart1 = Tower("dart", 599, 586)
 sub1 = Tower("sub", 903, 608)
@@ -23,7 +25,7 @@ farm4 = Tower("farm", 803, 869)
 farm5 = Tower("farm", 667, 869)
 
 
-def dark_catsle_impopable():
+def dark_catsle_impoppable():
     dart1.place()
     obyn.place()
     Game.game_play()
@@ -64,4 +66,7 @@ if __name__ == "__main__":
     # 13659 XP / MIN
     # 22 MIN / GAME
     to_front()
-    dark_catsle_impopable()
+    dark_castle.ready()
+    dark_catsle_impoppable()
+    sleep(150)
+    dark_castle.game_exit()

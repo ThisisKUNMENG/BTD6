@@ -1,4 +1,7 @@
-from games.lib.findwindow import *
+import sys
+
+from .findwindow import *
+from .dicts import *
 from time import sleep
 from pyautogui import moveTo, click
 from pydirectinput import press
@@ -7,12 +10,11 @@ import json
 import numpy as np
 import easyocr
 
-with open("maps.json", 'r') as f:
-    maps = json.load(f)
-
-modes = ["deflation", "easy standard"]
+__all__ = ["tower_money", "to_front", "Game", "get_money"]
 
 reader = easyocr.Reader(['en'], gpu = False)
+
+tower_money = {}
 
 
 def to_front():
@@ -25,7 +27,6 @@ def to_front():
 
 
 def _to_map(m):
-    # TODO to be finished
     page = m["page"] - 1
     # to level
     if m["level"] == "expert":
@@ -33,32 +34,59 @@ def _to_map(m):
         sleep(0.2)
         click()
         sleep(2)
+    elif m["level"] == "advanced":
+        moveTo(left + 900, top + 850)
+        sleep(0.2)
+        click()
+        sleep(2)
+    elif m["level"] == "intermediate":
+        moveTo(left + 700, top + 850)
+        sleep(0.2)
+        click()
+        sleep(2)
+    elif m["level"] == "beginner":
+        moveTo(left + 480, top + 850)
+        sleep(0.2)
+        click()
+        sleep(2)
+    else:
+        sys.exit(303)
     # to page
     while page != 0:
         click()
         sleep(2)
         page -= 1
     # get in map
+    # TODO to be finished
     if m["pos"] == 2:
         moveTo(left + 813, top + 238)
-        sleep(2)
-        click()
-        sleep(1)
+    sleep(2)
+    click()
+    sleep(1)
 
 
 def _to_mode(mode):
-    # TODO to be finished
-    if mode == "deflation":
+    if modes[mode]["difficulty"] == "easy":
         moveTo(left + 530, top + 390)
         sleep(2)
         click()
         sleep(1)
-        moveTo(left + 1077, top + 416)
+    elif modes[mode]["difficulty"] == "medium":
+        moveTo(left + 800, top + 390)
         sleep(2)
         click()
-        sleep(9)
+        sleep(1)
+    elif modes[mode]["difficulty"] == "hard" or modes[mode]["difficulty"] == "impoppable":
+        moveTo(left + 1075, top + 390)
+        sleep(2)
         click()
-        sleep(5)
+        sleep(1)
+    moveTo(left + modes[mode]["cord"][0], top + modes[mode]["cord"][1])
+    sleep(2)
+    click()
+    sleep(9)
+    click()
+    sleep(5)
 
 
 class Game:
@@ -70,6 +98,10 @@ class Game:
             sys.exit(302)
         self.map = maps[m]
         self.mode = mode
+        self.difficulty = modes[mode]["difficulty"]
+        for i in tower_money_all:
+            tower_money[i] = tower_money_all[i][self.difficulty]
+        print(tower_money)
 
     @staticmethod
     def game_play():
@@ -81,19 +113,20 @@ class Game:
 
     @staticmethod
     def game_exit():
+        moveTo(left + 400, top + 400)
         sleep(2)
         click()
-        sleep(0.5)
+        sleep(5)
         moveTo(left+800, top+800)
         sleep(0.5)
         click()
-        sleep(3)
+        sleep(5)
         moveTo(left+580, top+733)
         sleep(0.5)
         click()
         sleep(2)
         click()
-        sleep(2)
+        sleep(4)
 
     @staticmethod
     def play():

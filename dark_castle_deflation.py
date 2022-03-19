@@ -1,4 +1,6 @@
-from lib.place import *
+from BTD6_Automation import *
+
+dark_castle = Game("dark castle", "deflation", 360)
 
 ninja1 = Tower("ninja", 612, 399)
 ninja2 = Tower("ninja", 667, 406)
@@ -25,14 +27,11 @@ if __name__ == "__main__":
     # 9956 XP / MIN
     # 6 MIN / GAME
     to_front()
-    dark_castle = Game("dark castle", "deflation", 360)
     loop = 1
     while loop < 100:
         print("repeated times: " + str(loop))
         dark_castle.ready()
-        game()
+        dark_castle_deflation()
         dark_castle.check_upgrade()
         dark_castle.game_exit()
         loop += 1
-
-# 1935404

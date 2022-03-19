@@ -1,4 +1,4 @@
-from lib.place import *
+from BTD6_Automation import *
 
 sauda = Tower("hero", 702, 344)
 tack1 = Tower("tack", 701, 492)

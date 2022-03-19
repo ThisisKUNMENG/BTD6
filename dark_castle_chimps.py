@@ -1,4 +1,4 @@
-from lib.place import *
+from BTD6_Automation import *
 
 dart1 = Tower("dart", 599, 586)
 sub1 = Tower("sub", 903, 608)

@@ -1,12 +1,15 @@
-from games.lib.utils import *
+import sys
+
+from .findwindow import *
+from .utils import *
 from time import sleep
 from pyautogui import moveTo, click
 from pydirectinput import press
 import json
 from PIL.ImageGrab import grab
+from .dicts import *
 
-with open("hotkeys.json", 'r') as f:
-    hotkey = json.load(f)
+__all__ = ["Tower"]
 
 
 def check_for_upgrade(path, lr):
@@ -46,9 +49,22 @@ class Tower:
             self.lr = "l"
         else:
             self.lr = "r"
+        if name != "hero":
+            try:
+                self.money = tower_money[name]
+            except Exception as e:
+                sys.exit(410)
+        else:
+            self.money = 500
 
     def place(self, **kwargs):
         sleep(0.1)
+        if "money" in kwargs.keys():
+            while get_money() < kwargs["money"]:
+                sleep(3)
+        else:
+            while get_money() < self.money:
+                sleep(3)
         press(hotkey[self.name])
         sleep(0.3)
         moveTo(self.x, self.y)
@@ -95,7 +111,6 @@ class Tower:
         :param amount: how much money that are needed to place the tower
         :param kwargs: upgrade or/and targeting
         """
-        # TODO try to prefix the amount(price) according to the tower and difficulty
         while get_money() < amount:
             sleep(3)
         if "upgrade" in kwargs.keys() and "targeting" in kwargs.keys():

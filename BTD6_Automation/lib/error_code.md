@@ -4,6 +4,7 @@
 * 300: tower name error
 * 301: map name error
 * 302: mode name error
+* 303: map difficulty error
 * 310: check for upgrade color error
 * 311, 312: check for upgrade input error
 * 400: ocr error

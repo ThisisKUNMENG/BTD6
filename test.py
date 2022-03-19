@@ -1,9 +1,14 @@
 import easyocr
+import json
 
-reader = easyocr.Reader(['en'], gpu = False)
+# reader = easyocr.Reader(['en'], gpu = False)
+with open("BTD6_Automation/lib/tower_money.json", 'r') as f:
+    tower_money = json.load(f)
+
+i = {}
 
 if __name__ == '__main__':
-    pass
+    print(len(i))
 
 
 # (34, 148, 0)
