@@ -1,5 +1,7 @@
 from BTD6_Automation import *
 
+dark_castle = Game("dark castle", "chimps", 380)
+
 dart1 = Tower("dart", 599, 586)
 sub1 = Tower("sub", 903, 608)
 dart2 = Tower("dart", 567, 624)
@@ -19,7 +21,7 @@ sub2 = Tower("sub", 917, 295)
 
 
 def dark_castle_chimps():
-    # TODO replace place with place_money and change dart2 position
+    # TODO change dart2 position
     dart1.place()
     sub1.place()
     Game.game_play()

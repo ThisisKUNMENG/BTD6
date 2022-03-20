@@ -53,9 +53,11 @@ class Tower:
             try:
                 self.money = tower_money[name]
             except Exception as e:
-                sys.exit(410)
+                print("error", e)
+            else:
+                self.money = 0
         else:
-            self.money = 500
+            self.money = 0
 
     def place(self, **kwargs):
         sleep(0.1)
@@ -107,6 +109,7 @@ class Tower:
     def place_money(self, amount, **kwargs):
         """
         a function to place tower when money is sufficient.
+        NOTE: this is an outdated function, please use Tower.place(money=) to set money.
 
         :param amount: how much money that are needed to place the tower
         :param kwargs: upgrade or/and targeting

@@ -1,6 +1,6 @@
 from BTD6_Automation import *
 
-dark_castle = Game("dark castle", "deflation", 360)
+dark_castle = Game("dark castle", "deflation", 380)
 
 ninja1 = Tower("ninja", 612, 399)
 ninja2 = Tower("ninja", 667, 406)

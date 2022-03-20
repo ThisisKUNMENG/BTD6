@@ -1,5 +1,7 @@
 from BTD6_Automation import *
 
+balance = Game("dark castle", "chimps", 380)
+
 sauda = Tower("hero", 702, 344)
 tack1 = Tower("tack", 701, 492)
 alch1 = Tower("alch", 818, 362)
