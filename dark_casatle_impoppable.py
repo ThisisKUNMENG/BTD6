@@ -1,6 +1,6 @@
 from BTD6_Automation import *
 
-dark_castle = Game("dark castle", "impoppable", 360)
+dark_castle = Game("dark castle", "impoppable")
 
 dart1 = Tower("dart", 599, 586)
 sub1 = Tower("sub", 903, 608)
@@ -66,7 +66,13 @@ if __name__ == "__main__":
     # 13659 XP / MIN
     # 22 MIN / GAME
     to_front()
-    dark_castle.ready()
-    dark_catsle_impoppable()
-    sleep(150)
-    dark_castle.game_exit()
+    for i in range(30):
+        try:
+            print("current times:", i+1)
+            dark_castle.ready()
+            dark_catsle_impoppable()
+            sleep(120)
+            dark_castle.game_exit()
+        except LoseError:
+            print("lost at ", i+1, " round")
+            dark_castle.lose_home()

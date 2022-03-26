@@ -1,10 +1,11 @@
 from BTD6_Automation import *
+import sys
 
-dark_castle = Game("dark castle", "chimps", 380)
+dark_castle = Game("dark castle", "chimps")
 
-dart1 = Tower("dart", 599, 586)
-sub1 = Tower("sub", 903, 608)
-dart2 = Tower("dart", 567, 624)
+dart1 = Tower("dart", 616, 579)
+sub1 = Tower("sub", 905, 608)
+dart2 = Tower("dart", 496, 541)
 obyn = Tower("hero", 738, 404)
 alch1 = Tower("alch", 845, 589)
 druid1 = Tower("druid", 675, 403)
@@ -21,12 +22,11 @@ sub2 = Tower("sub", 917, 295)
 
 
 def dark_castle_chimps():
-    # TODO change dart2 position
     dart1.place()
     sub1.place()
     Game.game_play()
-    dart2.place()
-    obyn.place()
+    dart2.place_money(225, targeting=1)
+    obyn.place(money=700)
     sub1.upgrade_with_order([1, 1, 3, 3])
     dart1.upgrade_to(path3=2)
     sub1.upgrade_to(path3=2)
@@ -60,14 +60,11 @@ def dark_castle_chimps():
 
 if __name__ == "__main__":
     to_front()
-    dart1.place()
-    sub1.place()
-    Game.game_play()
-    sleep(10)
-    dart2.place()
-    p = 0
-    while p<10:
-        print(p)
-        sleep(10)
-        p += 1
+    while True:
+        try:
+            dark_castle_chimps()
+        except LoseError:
+            print("lost")
+            dark_castle.lose_restart()
+
 

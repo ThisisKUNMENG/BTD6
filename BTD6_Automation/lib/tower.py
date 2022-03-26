@@ -35,7 +35,8 @@ def check_for_upgrade(path, lr):
     elif color[2] < 50:
         return False
     else:
-        sys.exit(310)
+        check_lose()
+        return True
 
 
 class Tower:
@@ -54,8 +55,6 @@ class Tower:
                 self.money = tower_money[name]
             except Exception as e:
                 print("error", e)
-            else:
-                self.money = 0
         else:
             self.money = 0
 
@@ -63,9 +62,12 @@ class Tower:
         sleep(0.1)
         if "money" in kwargs.keys():
             while get_money() < kwargs["money"]:
+                check_lose()
                 sleep(3)
         else:
+            print(self.name, self.money)
             while get_money() < self.money:
+                check_lose()
                 sleep(3)
         press(hotkey[self.name])
         sleep(0.3)
@@ -100,6 +102,7 @@ class Tower:
         click()
         sleep(0.1)
         while check_for_upgrade(path, tower.lr):
+            check_lose()
             sleep(5)
         click()
         sleep(0.1)
@@ -115,6 +118,7 @@ class Tower:
         :param kwargs: upgrade or/and targeting
         """
         while get_money() < amount:
+            check_lose()
             sleep(3)
         if "upgrade" in kwargs.keys() and "targeting" in kwargs.keys():
             self.place(upgrade=kwargs["upgrade"], targeting=kwargs["targeting"])
@@ -175,18 +179,21 @@ class Tower:
     def _upgrade(self, path1, path2, path3):
         while path1 != 0:
             while check_for_upgrade(1, self.lr):
+                check_lose()
                 sleep(5)
             press(hotkey["path1"])
             sleep(0.05)
             path1 -= 1
         while path2 != 0:
             while check_for_upgrade(2, self.lr):
+                check_lose()
                 sleep(5)
             press(hotkey["path2"])
             sleep(0.05)
             path2 -= 1
         while path3 != 0:
             while check_for_upgrade(3, self.lr):
+                check_lose()
                 sleep(5)
             press(hotkey["path3"])
             sleep(0.05)

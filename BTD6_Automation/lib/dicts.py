@@ -147,3 +147,5 @@ tower_money_all = {
   "spike": {"easy": 850, "medium": 1000,"hard": 1080,"impoppable": 1200},
   "village": {"easy": 1020, "medium": 1200,"hard": 1295,"impoppable": 1440}
 }
+
+pos_loc = [[429, 256], [813, 256], [1150, 256], [429, 515], [813, 515], [1150, 515]]

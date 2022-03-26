@@ -10,7 +10,7 @@ import json
 import numpy as np
 import easyocr
 
-__all__ = ["tower_money", "to_front", "Game", "get_money"]
+__all__ = ["tower_money", "to_front", "Game", "get_money", "LoseError", "check_lose"]
 
 reader = easyocr.Reader(['en'], gpu = False)
 
@@ -57,9 +57,7 @@ def _to_map(m):
         sleep(2)
         page -= 1
     # get in map
-    # TODO to be finished
-    if m["pos"] == 2:
-        moveTo(left + 813, top + 238)
+    moveTo(left + pos_loc[m["pos"]-1][0], top + pos_loc[m["pos"]-1][1])
     sleep(2)
     click()
     sleep(1)
@@ -90,8 +88,8 @@ def _to_mode(mode):
 
 
 class Game:
-    def __init__(self, m, mode, t):
-        self.t = t
+    def __init__(self, m, mode):
+        self._t = 380
         if m not in maps:
             sys.exit(301)
         if mode not in modes:
@@ -111,8 +109,24 @@ class Game:
         press("space")
         sleep(0.1)
 
+    @property
+    def wait_time(self):
+        return self._t
+
+    @wait_time.setter
+    def wait_time(self, value):
+        self._t = value
+
+    @wait_time.deleter
+    def wait_time(self):
+        del self._t
+
+    def game_exit(self):
+        self._vic()
+        self._to_home()
+
     @staticmethod
-    def game_exit():
+    def _vic():
         moveTo(left + 400, top + 400)
         sleep(2)
         click()
@@ -121,12 +135,28 @@ class Game:
         sleep(0.5)
         click()
         sleep(5)
+
+    @staticmethod
+    def _to_home():
         moveTo(left+580, top+733)
         sleep(0.5)
         click()
         sleep(2)
         click()
         sleep(4)
+
+    def free_play(self):
+        self._vic()
+        self._to_free()
+
+    @staticmethod
+    def _to_free():
+        moveTo(left+1025, top+733)
+        sleep(0.5)
+        click()
+        sleep(2)
+        click()
+        sleep(2)
 
     @staticmethod
     def play():
@@ -148,13 +178,29 @@ class Game:
         self.to_map()
         self.to_mode()
 
+    @staticmethod
+    def lose_home():
+        moveTo(left+600, top+700)
+        sleep(0.5)
+        click()
+        sleep(4)
+
+    @staticmethod
+    def lose_restart():
+        moveTo(left+800, top+700)
+        sleep(0.5)
+        click()
+        sleep(4)
+
     def check_upgrade(self):
         sleep(0.1)
         moveTo(left+510, top+672)
-        tt = self.t
-        while tt > 0:
-            print("supposed game time remaining: " + str(tt) + " seconds")
-            sleep(10)
+        wait_time = self._t
+        while wait_time > 0:
+            print("supposed game time remaining: " + str(wait_time) + " seconds")
+            sleep(5)
+            check_lose()
+            sleep(5)
             click()
             sleep(0.1)
             click()
@@ -162,7 +208,7 @@ class Game:
             sleep(0.05)
             press("space")
             sleep(0.05)
-            tt -= 10
+            wait_time -= 10
 
 
 def get_money():
@@ -179,3 +225,25 @@ def get_money():
     return m
 
 
+class LoseError(RuntimeError):
+    def __init__(self, arg):
+        self.args = arg
+
+
+def check_lose():
+    p = grab([left+603, top+268, left+1020, top+380])
+    text = reader.readtext(np.array(p), allowlist='DEeFAT', detail=0)
+    print(text)
+    if 'DEFED' in text or 'DEFEAT' in text or 'DEEEE' in text or 'DEEE' in text:
+        raise LoseError("lost")
+    else:
+        return False
+
+
+def check_victory():
+    p = grab([left+574, top+122, left+1014, top+231])
+    text = reader.readtext(np.array(p), allowlist='VICTORY', detail=0)
+    if 'VICTORY' in text:
+        return True
+    else:
+        return False
