@@ -69,7 +69,7 @@ if __name__ == "__main__":
     for i in range(30):
         try:
             print("current times:", i+1)
-            dark_castle.ready()
+            # dark_castle.ready()
             dark_catsle_impoppable()
             sleep(120)
             dark_castle.game_exit()

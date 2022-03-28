@@ -1,9 +1,10 @@
 import win32gui
 import sys
+import logging
 
 classname = "UnityWndClass"
 titlename = "BloonsTD6"
-
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 
 def get_window():
     # 获取句柄
@@ -11,15 +12,15 @@ def get_window():
     if hwnd:
         # 获取窗口左上角和右下角坐标
         left, top, right, bottom = win32gui.GetWindowRect(hwnd)
-        print(left, top, right, bottom)
-        print(right - left, bottom - top)
+        logging.info("BTD6 on screen, position at: %d, %d, %d, %d", left, top, right, bottom)
+        # print(right - left, bottom - top)
     else:
-        print("please open BTD6")
+        logging.error("please open BTD6")
         sys.exit(200)
     if right - left == 1616 and bottom - top == 939:
         pass
     else:
-        print("please set the correct window size")
+        logging.error("please set the correct window size")
         sys.exit(201)
     return left, top, right, bottom
 

@@ -35,6 +35,7 @@ def check_for_upgrade(path, lr):
     elif color[2] < 50:
         return False
     else:
+        logger.warning("A problem in checking tower upgrade")
         check_lose()
         return True
 
@@ -65,10 +66,10 @@ class Tower:
                 check_lose()
                 sleep(3)
         else:
-            print(self.name, self.money)
             while get_money() < self.money:
                 check_lose()
                 sleep(3)
+        logger.info("placing %s at absolute position %d, %d", self.name, self.x, self.y)
         press(hotkey[self.name])
         sleep(0.3)
         moveTo(self.x, self.y)
@@ -79,13 +80,17 @@ class Tower:
             click()
             sleep(0.1)
             if "upgrade" in kwargs.keys():
+                logger.info("upgrade %s to [%d, %d, %d]", self.name,
+                            kwargs["upgrade"][0], kwargs["upgrade"][1], kwargs["upgrade"][2])
                 self._upgrade(kwargs["upgrade"][0], kwargs["upgrade"][1], kwargs["upgrade"][2])
             if "targeting" in kwargs.keys():
+                logger.info("change %s targeting by %d steps", self.name, kwargs["targeting"])
                 self.targeting(kwargs["targeting"])
             click()
             sleep(0.3)
 
     def upgrade_to(self, path1=0, path2=0, path3=0):
+        logger.info("upgrade %s by [%d, %d, %d]", self.name, path1, path2, path3)
         sleep(0.1)
         moveTo(self.x, self.y)
         sleep(0.1)
@@ -130,6 +135,7 @@ class Tower:
             self.place()
 
     def upgrade_with_order(self, order):
+        logger.info(f"upgrade {self.name} with order {order}")
         sleep(0.1)
         moveTo(self.x, self.y)
         sleep(0.1)
@@ -147,6 +153,7 @@ class Tower:
         sleep(0.1)
 
     def sell(self):
+        logger.info("sell %s", self.name)
         sleep(0.1)
         moveTo(self.x, self.y)
         sleep(0.1)
@@ -164,6 +171,7 @@ class Tower:
             to -= 1
 
     def change_targeting(self, to):
+        logger.info("change %s targeting by %d steps", self.name, to)
         sleep(0.1)
         moveTo(self.x, self.y)
         sleep(0.1)

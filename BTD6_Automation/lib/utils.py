@@ -9,15 +9,20 @@ from PIL.ImageGrab import grab
 import json
 import numpy as np
 import easyocr
+import logging
 
-__all__ = ["tower_money", "to_front", "Game", "get_money", "LoseError", "check_lose"]
+__all__ = ["tower_money", "to_front", "Game", "get_money", "LoseError", "check_lose", "logger"]
 
-reader = easyocr.Reader(['en'], gpu = False)
+reader = easyocr.Reader(['en'])
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
+logger = logging.getLogger()
 
 tower_money = {}
 
 
 def to_front():
+    logger.info("letting the BTD6 window be at front")
     moveTo(left+400, top+400)
     sleep(0.1)
     click()
@@ -27,6 +32,7 @@ def to_front():
 
 
 def _to_map(m):
+    logger.info("entering the map %s", m["name"])
     page = m["page"] - 1
     # to level
     if m["level"] == "expert":
@@ -64,6 +70,7 @@ def _to_map(m):
 
 
 def _to_mode(mode):
+    logger.debug("entering the mode %s", modes[mode]["difficulty"])
     if modes[mode]["difficulty"] == "easy":
         moveTo(left + 530, top + 390)
         sleep(2)
@@ -103,6 +110,7 @@ class Game:
 
     @staticmethod
     def game_play():
+        logger.info("game starts")
         sleep(0.1)
         press("space")
         sleep(0.1)
@@ -221,19 +229,20 @@ def get_money():
     except Exception as e:
         print("error ", text)
         # sys.exit(400)
-    print("money:", m)
+    logger.debug("current money: %d", m)
     return m
 
 
 class LoseError(RuntimeError):
     def __init__(self, arg):
         self.args = arg
+        logger.warning("Game is Lost")
 
 
 def check_lose():
     p = grab([left+603, top+268, left+1020, top+380])
     text = reader.readtext(np.array(p), allowlist='DEeFAT', detail=0)
-    print(text)
+    logger.debug("check lose found: %s", ",".join(text))
     if 'DEFED' in text or 'DEFEAT' in text or 'DEEEE' in text or 'DEEE' in text:
         raise LoseError("lost")
     else:
@@ -243,7 +252,16 @@ def check_lose():
 def check_victory():
     p = grab([left+574, top+122, left+1014, top+231])
     text = reader.readtext(np.array(p), allowlist='VICTORY', detail=0)
+    logger.debug("check victory found: %s", ",".join(text))
     if 'VICTORY' in text:
         return True
     else:
         return False
+
+
+def check_insta():
+    # TODO to be finished
+    p = grab([left+603, top+268, left+1020, top+380])
+    text = reader.readtext(np.array(p), allowlist='InSTA-MOnKeY', detail=0)
+    logger.debug("check lose found: %s", ",".join(text))
+    pass

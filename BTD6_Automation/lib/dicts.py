@@ -32,18 +32,21 @@ hotkey = {
 maps = {
   "monkey meadow":
   {
+    "name": "monkey meadow",
     "level": "beginner",
     "page": 1,
     "pos": 1
   },
   "balance":
   {
+    "name": "balance",
     "level": "intermediate",
     "page": 1,
     "pos": 3
   },
   "dark castle":
   {
+    "name": "dark castle",
     "level": "expert",
     "page": 2,
     "pos": 2
@@ -122,6 +125,9 @@ modes = {
     "cord": [1350, 650]
   }
 }
+
+special_modes = ["impoppable", "double hp moabs", "half cash", "ABR", "apopalypse",
+                 "primary", "military", "magic", "reverse", "deflation"]
 
 tower_money_all = {
   "dart": {"easy": 170, "medium": 200,"hard": 215,"impoppable": 240},
