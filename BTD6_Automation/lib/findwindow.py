@@ -5,6 +5,7 @@ import logging
 classname = "UnityWndClass"
 titlename = "BloonsTD6"
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
+logger = logging.getLogger()
 
 def get_window():
     # 获取句柄

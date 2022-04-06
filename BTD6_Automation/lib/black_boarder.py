@@ -18,7 +18,7 @@ class BlackBoarder(object):
             game.ready()
             try:
                 self.game[i]()
-            except LoseError:
+            except GameError:
                 print("lost in game mode ", i)
                 game.lose_home()
             else:

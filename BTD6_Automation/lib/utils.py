@@ -1,24 +1,116 @@
 import sys
-
 from .findwindow import *
 from .dicts import *
 from time import sleep
 from pyautogui import moveTo, click
 from pydirectinput import press
 from PIL.ImageGrab import grab
-import json
 import numpy as np
 import easyocr
-import logging
 
-__all__ = ["tower_money", "to_front", "Game", "get_money", "LoseError", "check_lose", "logger"]
+__all__ = ["tower_money", "to_front", "Game", "get_money", "GameError", "check"]
 
 reader = easyocr.Reader(['en'])
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
-logger = logging.getLogger()
-
 tower_money = {}
+
+check_for_insta = False
+collection_event = True
+
+
+# def check_lose():
+#     p = grab([left+715, top+517, left+903, top+548])
+#     text = reader.readtext(np.array(p), detail=0)
+#     logger.debug("check lose found: %s", ",".join(text))
+#     if 'Bloons Leaked' in text:
+#         raise GameError("lost")
+#     # if it is "Generated", it is victory.
+#     else:
+#         return False
+#
+#
+# def check_victory():
+#     p = grab([left+574, top+122, left+1014, top+231])
+#     text = reader.readtext(np.array(p), allowlist='VICTORY', detail=0)
+#     logger.debug("check victory found: %s", ",".join(text))
+#     if 'VICTORY' in text:
+#         raise GameError("victory")
+#     else:
+#         return False
+#
+#
+# def check_insta():
+#     p = grab([left+640, top+573, left+957, top+616])
+#     text = reader.readtext(np.array(p))
+#     logger.debug("check insta found: %s", ",".join(text))
+#     t = []
+#     for i in text:
+#         t.append(i[1])
+#     if 'InSTA-Monkey' in t or "InSTA-Monkev" in t:
+#         click()
+#     else:
+#         return False
+#     pass
+
+
+def _game_check(b1, b2):
+    text = []
+    upgrade = grab([left+701, top+482, left+825, top+526])
+    upgrade1 = reader.readtext(np.array(upgrade))
+    if upgrade1:
+        if upgrade1[0][1] == "Level" or upgrade1[0][1] == "LeveL":
+            logger.info("Upgrade!")
+            click()
+            sleep(0.6)
+            click()
+            sleep(0.5)
+    if b1:
+        p1 = grab([left+715, top+517, left+903, top+548])
+        p11 = reader.readtext(np.array(p1), blocklist="X0123456789")
+        if p11:
+            text.append(p11)
+    if b2:
+        p2 = grab([left + 640, top + 573, left + 957, top + 616])
+        p22 = reader.readtext(np.array(p2), blocklist="X0123456789")
+        if p22:
+            text.append(p22)
+    if not text:
+        return True
+    print(text)
+    t = []
+
+    for i in text:
+        for j in i:
+            t.append(j[1])
+    logger.info("check found: %s", ",".join(t))
+    # if "Bloons Leaked" in t:
+    #     logger.warning("lost")
+    #     raise GameError("lost")
+    # if "Generated" in t:
+    #     logger.info("victory")
+    #     return False
+    #     # raise GameError("victory")
+    for k in t:
+        if k == "Bloons Leaked":
+            logger.warning("lost")
+            raise GameError("lost")
+        if k == "Generated":
+            logger.info("victory")
+            return False
+        if "InSTA" in k:
+            click()
+            logger.info("insta monkey!")
+    return True
+
+
+def check(lose=True, victory=True):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            global check_for_insta
+            _game_check(lose | victory, check_for_insta)
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
 
 
 def to_front():
@@ -96,7 +188,6 @@ def _to_mode(mode):
 
 class Game:
     def __init__(self, m, mode):
-        self._t = 380
         if m not in maps:
             sys.exit(301)
         if mode not in modes:
@@ -104,6 +195,9 @@ class Game:
         self.map = maps[m]
         self.mode = mode
         self.difficulty = modes[mode]["difficulty"]
+        if self.difficulty == "impoppable" or self.difficulty == "chimps":
+            global check_for_insta
+            check_for_insta = True
         for i in tower_money_all:
             tower_money[i] = tower_money_all[i][self.difficulty]
         print(tower_money)
@@ -117,24 +211,15 @@ class Game:
         press("space")
         sleep(0.1)
 
-    @property
-    def wait_time(self):
-        return self._t
-
-    @wait_time.setter
-    def wait_time(self, value):
-        self._t = value
-
-    @wait_time.deleter
-    def wait_time(self):
-        del self._t
-
     def game_exit(self):
         self._vic()
         self._to_home()
 
     @staticmethod
     def _vic():
+        global check_for_insta
+        while _game_check(True, check_for_insta):
+            pass
         moveTo(left + 400, top + 400)
         sleep(2)
         click()
@@ -156,6 +241,8 @@ class Game:
     def free_play(self):
         self._vic()
         self._to_free()
+        global check_for_insta
+        check_for_insta = True
 
     @staticmethod
     def _to_free():
@@ -182,6 +269,14 @@ class Game:
         _to_mode(self.mode)
 
     def ready(self):
+        sleep(5)
+        if collection_event:
+            if check_collection_event():
+                moveTo(807, 606)
+                sleep(0.1)
+                click()
+                sleep(2)
+                collect()
         self.play()
         self.to_map()
         self.to_mode()
@@ -195,19 +290,21 @@ class Game:
 
     @staticmethod
     def lose_restart():
+        # TODO to be finished
         moveTo(left+800, top+700)
         sleep(0.5)
         click()
         sleep(4)
 
-    def check_upgrade(self):
+    @staticmethod
+    def check_upgrade():
         sleep(0.1)
         moveTo(left+510, top+672)
-        wait_time = self._t
+        wait_time = 380
         while wait_time > 0:
             print("supposed game time remaining: " + str(wait_time) + " seconds")
             sleep(5)
-            check_lose()
+            # check_lose()
             sleep(5)
             click()
             sleep(0.1)
@@ -219,6 +316,7 @@ class Game:
             wait_time -= 10
 
 
+@check()
 def get_money():
     c = grab(money)
     im = np.array(c)
@@ -233,35 +331,33 @@ def get_money():
     return m
 
 
-class LoseError(RuntimeError):
+class GameError(RuntimeError):
     def __init__(self, arg):
         self.args = arg
         logger.warning("Game is Lost")
 
 
-def check_lose():
-    p = grab([left+603, top+268, left+1020, top+380])
-    text = reader.readtext(np.array(p), allowlist='DEeFAT', detail=0)
-    logger.debug("check lose found: %s", ",".join(text))
-    if 'DEFED' in text or 'DEFEAT' in text or 'DEEEE' in text or 'DEEE' in text:
-        raise LoseError("lost")
-    else:
-        return False
-
-
-def check_victory():
-    p = grab([left+574, top+122, left+1014, top+231])
-    text = reader.readtext(np.array(p), allowlist='VICTORY', detail=0)
-    logger.debug("check victory found: %s", ",".join(text))
-    if 'VICTORY' in text:
+def check_collection_event():
+    # note: every collection event vary.
+    if grab([left+604, top+65, left+605, top+66]).load()[0, 0] == (209, 124, 255):
         return True
     else:
         return False
 
 
-def check_insta():
-    # TODO to be finished
-    p = grab([left+603, top+268, left+1020, top+380])
-    text = reader.readtext(np.array(p), allowlist='InSTA-MOnKeY', detail=0)
-    logger.debug("check lose found: %s", ",".join(text))
-    pass
+def collect():
+    for i in range(5):
+        moveTo(left+555+125*i, top+470)
+        sleep(0.1)
+        click()
+        sleep(1)
+        click()
+        sleep(1)
+    sleep(0.5)
+    click()
+    sleep(1)
+    moveTo(61, 73)
+    sleep(0.1)
+    click()
+    sleep(1)
+

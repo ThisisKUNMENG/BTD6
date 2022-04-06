@@ -63,7 +63,7 @@ if __name__ == "__main__":
     while True:
         try:
             dark_castle_chimps()
-        except LoseError:
+        except GameError:
             print("lost")
             dark_castle.lose_restart()
 

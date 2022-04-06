@@ -1,17 +1,18 @@
 import sys
-
 from .findwindow import *
 from .utils import *
+from .dicts import *
 from time import sleep
+
 from pyautogui import moveTo, click
 from pydirectinput import press
-import json
 from PIL.ImageGrab import grab
-from .dicts import *
+
 
 __all__ = ["Tower"]
 
 
+@check()
 def check_for_upgrade(path, lr):
     y = 0
     x = 0
@@ -36,7 +37,6 @@ def check_for_upgrade(path, lr):
         return False
     else:
         logger.warning("A problem in checking tower upgrade")
-        check_lose()
         return True
 
 
@@ -63,13 +63,11 @@ class Tower:
         sleep(0.1)
         if "money" in kwargs.keys():
             while get_money() < kwargs["money"]:
-                check_lose()
                 sleep(3)
         else:
             while get_money() < self.money:
-                check_lose()
                 sleep(3)
-        logger.info("placing %s at absolute position %d, %d", self.name, self.x, self.y)
+        logger.debug("placing %s at absolute position %d, %d", self.name, self.x, self.y)
         press(hotkey[self.name])
         sleep(0.3)
         moveTo(self.x, self.y)
@@ -80,17 +78,17 @@ class Tower:
             click()
             sleep(0.1)
             if "upgrade" in kwargs.keys():
-                logger.info("upgrade %s to [%d, %d, %d]", self.name,
+                logger.debug("upgrade %s to [%d, %d, %d]", self.name,
                             kwargs["upgrade"][0], kwargs["upgrade"][1], kwargs["upgrade"][2])
                 self._upgrade(kwargs["upgrade"][0], kwargs["upgrade"][1], kwargs["upgrade"][2])
             if "targeting" in kwargs.keys():
-                logger.info("change %s targeting by %d steps", self.name, kwargs["targeting"])
+                logger.debug("change %s targeting by %d steps", self.name, kwargs["targeting"])
                 self.targeting(kwargs["targeting"])
             click()
             sleep(0.3)
 
     def upgrade_to(self, path1=0, path2=0, path3=0):
-        logger.info("upgrade %s by [%d, %d, %d]", self.name, path1, path2, path3)
+        logger.debug("upgrade %s by [%d, %d, %d]", self.name, path1, path2, path3)
         sleep(0.1)
         moveTo(self.x, self.y)
         sleep(0.1)
@@ -107,7 +105,6 @@ class Tower:
         click()
         sleep(0.1)
         while check_for_upgrade(path, tower.lr):
-            check_lose()
             sleep(5)
         click()
         sleep(0.1)
@@ -123,7 +120,6 @@ class Tower:
         :param kwargs: upgrade or/and targeting
         """
         while get_money() < amount:
-            check_lose()
             sleep(3)
         if "upgrade" in kwargs.keys() and "targeting" in kwargs.keys():
             self.place(upgrade=kwargs["upgrade"], targeting=kwargs["targeting"])
@@ -135,7 +131,7 @@ class Tower:
             self.place()
 
     def upgrade_with_order(self, order):
-        logger.info(f"upgrade {self.name} with order {order}")
+        logger.debug(f"upgrade {self.name} with order {order}")
         sleep(0.1)
         moveTo(self.x, self.y)
         sleep(0.1)
@@ -153,7 +149,7 @@ class Tower:
         sleep(0.1)
 
     def sell(self):
-        logger.info("sell %s", self.name)
+        logger.debug("sell %s", self.name)
         sleep(0.1)
         moveTo(self.x, self.y)
         sleep(0.1)
@@ -171,7 +167,7 @@ class Tower:
             to -= 1
 
     def change_targeting(self, to):
-        logger.info("change %s targeting by %d steps", self.name, to)
+        logger.debug("change %s targeting by %d steps", self.name, to)
         sleep(0.1)
         moveTo(self.x, self.y)
         sleep(0.1)
@@ -187,21 +183,18 @@ class Tower:
     def _upgrade(self, path1, path2, path3):
         while path1 != 0:
             while check_for_upgrade(1, self.lr):
-                check_lose()
                 sleep(5)
             press(hotkey["path1"])
             sleep(0.05)
             path1 -= 1
         while path2 != 0:
             while check_for_upgrade(2, self.lr):
-                check_lose()
                 sleep(5)
             press(hotkey["path2"])
             sleep(0.05)
             path2 -= 1
         while path3 != 0:
             while check_for_upgrade(3, self.lr):
-                check_lose()
                 sleep(5)
             press(hotkey["path3"])
             sleep(0.05)

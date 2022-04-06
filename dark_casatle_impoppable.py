@@ -47,9 +47,9 @@ def dark_catsle_impoppable():
     druid6.place_money(500)
     farm1.place_money(1400)
     farm1.upgrade_with_order([3, 3, 3, 2, 2])
+    druid3.upgrade_to(path2=1, path3=4)
     farm2.place_money(1500)
     farm2.upgrade_with_order([3, 3, 3, 2, 2])
-    druid3.upgrade_to(path2=1, path3=4)
     druid4.upgrade_to(path2=1, path3=4)
     druid5.upgrade_to(path2=1, path3=4)
     druid6.upgrade_to(path2=1, path3=4)
@@ -66,13 +66,12 @@ if __name__ == "__main__":
     # 13659 XP / MIN
     # 22 MIN / GAME
     to_front()
-    for i in range(30):
+    for i in range(1):
         try:
             print("current times:", i+1)
-            # dark_castle.ready()
+            dark_castle.ready()
             dark_catsle_impoppable()
-            sleep(120)
             dark_castle.game_exit()
-        except LoseError:
-            print("lost at ", i+1, " round")
+        except GameError as e:
+            print("lost at ", i+1, " round with text ", e)
             dark_castle.lose_home()
