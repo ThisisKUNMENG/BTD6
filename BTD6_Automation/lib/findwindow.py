@@ -1,3 +1,5 @@
+# this module is to locate BTD6 window
+
 import win32gui
 import sys
 import logging
@@ -6,6 +8,7 @@ classname = "UnityWndClass"
 titlename = "BloonsTD6"
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger()
+
 
 def get_window():
     # 获取句柄
@@ -32,3 +35,6 @@ left, top, right, bottom = get_window()
 left = left + 7
 
 money = [left+288, top+46, left+380, top+84]
+
+if __name__ == "__main__":
+    print(left, top, right, bottom)

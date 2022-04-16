@@ -1,3 +1,5 @@
+# This module is to operate tower actions.
+
 import sys
 from .findwindow import *
 from .utils import *

@@ -8,7 +8,7 @@ from PIL.ImageGrab import grab
 import numpy as np
 import easyocr
 
-__all__ = ["tower_money", "to_front", "Game", "get_money", "GameError", "check"]
+# __all__ = ["tower_money", "to_front", "Game", "get_money", "GameError", "check"]
 
 reader = easyocr.Reader(['en'])
 
@@ -76,13 +76,12 @@ def _game_check(b1, b2):
             text.append(p22)
     if not text:
         return True
-    print(text)
+    # print(text)
     t = []
-
     for i in text:
         for j in i:
             t.append(j[1])
-    logger.info("check found: %s", ",".join(t))
+    # logger.info("check found: %s", ",".join(t))
     # if "Bloons Leaked" in t:
     #     logger.warning("lost")
     #     raise GameError("lost")
@@ -200,7 +199,7 @@ class Game:
             check_for_insta = True
         for i in tower_money_all:
             tower_money[i] = tower_money_all[i][self.difficulty]
-        print(tower_money)
+        # print(tower_money)
 
     @staticmethod
     def game_play():
@@ -296,24 +295,24 @@ class Game:
         click()
         sleep(4)
 
-    @staticmethod
-    def check_upgrade():
-        sleep(0.1)
-        moveTo(left+510, top+672)
-        wait_time = 380
-        while wait_time > 0:
-            print("supposed game time remaining: " + str(wait_time) + " seconds")
-            sleep(5)
-            # check_lose()
-            sleep(5)
-            click()
-            sleep(0.1)
-            click()
-            press("space")
-            sleep(0.05)
-            press("space")
-            sleep(0.05)
-            wait_time -= 10
+    # @staticmethod
+    # def check_upgrade():
+    #     sleep(0.1)
+    #     moveTo(left+510, top+672)
+    #     wait_time = 380
+    #     while wait_time > 0:
+    #         print("supposed game time remaining: " + str(wait_time) + " seconds")
+    #         sleep(5)
+    #         # check_lose()
+    #         sleep(5)
+    #         click()
+    #         sleep(0.1)
+    #         click()
+    #         press("space")
+    #         sleep(0.05)
+    #         press("space")
+    #         sleep(0.05)
+    #         wait_time -= 10
 
 
 @check()
@@ -325,7 +324,7 @@ def get_money():
     try:
         m = int(text[0])
     except Exception as e:
-        print("error ", text)
+        logger.warning("get money error ", text)
         # sys.exit(400)
     logger.debug("current money: %d", m)
     return m
@@ -334,7 +333,7 @@ def get_money():
 class GameError(RuntimeError):
     def __init__(self, arg):
         self.args = arg
-        logger.warning("Game is Lost")
+        logger.warning("There is something wrong")
 
 
 def check_collection_event():

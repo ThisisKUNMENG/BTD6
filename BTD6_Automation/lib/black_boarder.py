@@ -1,3 +1,6 @@
+# This module is to get black boarder on a map.
+# Note that this module is not completed yet.
+
 from .utils import *
 from .dicts import modes
 
