@@ -9,11 +9,11 @@ special_modes = ["impoppable", "double hp moabs", "half cash", "ABR", "apopalyps
 
 
 class BlackBoarder(object):
-    def __init__(self, m, s, **kwargs):
+    def __init__(self, m, game_func, **kwargs):
         self.m = m
         self.game = {}
         for i in modes:
-            self.game[i] = s
+            self.game[i] = game_func
 
     def run(self):
         for i in modes:
@@ -22,10 +22,10 @@ class BlackBoarder(object):
             try:
                 self.game[i]()
             except GameError:
-                print("lost in game mode ", i)
+                logger.warning("lost in game mode ", i)
                 game.lose_home()
             else:
-                print("victory in game mode ", i)
+                logger.info("victory in game mode ", i)
                 game.game_exit()
             finally:
                 del game

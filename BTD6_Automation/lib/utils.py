@@ -76,25 +76,18 @@ def _game_check(b1, b2):
             text.append(p22)
     if not text:
         return True
-    # print(text)
     t = []
     for i in text:
         for j in i:
             t.append(j[1])
-    # logger.info("check found: %s", ",".join(t))
-    # if "Bloons Leaked" in t:
-    #     logger.warning("lost")
-    #     raise GameError("lost")
-    # if "Generated" in t:
-    #     logger.info("victory")
-    #     return False
-    #     # raise GameError("victory")
+    logger.debug("check found: %s", ",".join(t))
     for k in t:
         if k == "Bloons Leaked":
             logger.warning("lost")
             raise GameError("lost")
         if k == "Generated":
             logger.info("victory")
+            # raise GameError("victory")
             return False
         if "InSTA" in k:
             click()
@@ -144,8 +137,8 @@ def _to_map(m):
     elif m["level"] == "beginner":
         moveTo(left + 480, top + 850)
         sleep(0.2)
-        click()
-        sleep(2)
+        # click()
+        # sleep(2)
     else:
         sys.exit(303)
     # to page
@@ -199,7 +192,6 @@ class Game:
             check_for_insta = True
         for i in tower_money_all:
             tower_money[i] = tower_money_all[i][self.difficulty]
-        # print(tower_money)
 
     @staticmethod
     def game_play():
@@ -295,25 +287,6 @@ class Game:
         click()
         sleep(4)
 
-    # @staticmethod
-    # def check_upgrade():
-    #     sleep(0.1)
-    #     moveTo(left+510, top+672)
-    #     wait_time = 380
-    #     while wait_time > 0:
-    #         print("supposed game time remaining: " + str(wait_time) + " seconds")
-    #         sleep(5)
-    #         # check_lose()
-    #         sleep(5)
-    #         click()
-    #         sleep(0.1)
-    #         click()
-    #         press("space")
-    #         sleep(0.05)
-    #         press("space")
-    #         sleep(0.05)
-    #         wait_time -= 10
-
 
 @check()
 def get_money():
@@ -325,7 +298,6 @@ def get_money():
         m = int(text[0])
     except Exception as e:
         logger.warning("get money error ", text)
-        # sys.exit(400)
     logger.debug("current money: %d", m)
     return m
 
@@ -338,6 +310,8 @@ class GameError(RuntimeError):
 
 def check_collection_event():
     # note: every collection event vary.
+    # This is the easter collection event
+    sleep(6)
     if grab([left+604, top+65, left+605, top+66]).load()[0, 0] == (209, 124, 255):
         return True
     else:

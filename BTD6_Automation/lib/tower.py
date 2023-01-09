@@ -100,18 +100,18 @@ class Tower:
         click()
         sleep(0.2)
 
-    def place_when(self, tower, path):
-        sleep(0.1)
-        moveTo(tower.x, tower.y)
-        sleep(0.1)
-        click()
-        sleep(0.1)
-        while check_for_upgrade(path, tower.lr):
-            sleep(5)
-        click()
-        sleep(0.1)
-        self.place()
-        sleep(0.1)
+    # def place_when(self, tower, path):
+    #     sleep(0.1)
+    #     moveTo(tower.x, tower.y)
+    #     sleep(0.1)
+    #     click()
+    #     sleep(0.1)
+    #     while check_for_upgrade(path, tower.lr):
+    #         sleep(5)
+    #     click()
+    #     sleep(0.1)
+    #     self.place()
+    #     sleep(0.1)
 
     def place_money(self, amount, **kwargs):
         """

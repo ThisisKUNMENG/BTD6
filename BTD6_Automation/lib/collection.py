@@ -16,6 +16,8 @@ class Collection:
             click()
             sleep(2)
             collect()
+
+        click()
         Game.play()
         _to_expert()
         pos_x, pos_y, page = find_bonus_and_enter()
@@ -69,11 +71,16 @@ class Collection:
             raise GameError("map play to be defined")
 
     def grind(self, times=-1):
+        _times = 0
         if times == -1:
             while True:
+                _times += 1
+                logger.info(f"grind times: {_times}")
                 self._grind_once()
         else:
             for i in range(times):
+                _times += 1
+                logger.info(f"grind times: {_times}, remaining times: {times - _times}")
                 self._grind_once()
 
 
