@@ -103,6 +103,8 @@ def find_bonus_and_enter():
         for y in _y_pos:
             if p[left + x, top + y][0] in range(197, 201) and p[left + x, top + y][1] in range(161, 165) and p[left + x, top + y][2] in range(108, 112):
                 pass
+            elif (x, y) == (593, 271):
+                pass  # pass dark dungeon
             else:
                 moveTo(left + x, top + y)
                 sleep(0.2)
