@@ -62,7 +62,10 @@ class Collection:
         elif self.map == "ravine":
             Tower("hero", 182, 834).place_money(765, targeting=3)
             Game.game_play()
-            Tower("sniper", 942, 159).place(upgrade=[2, 0, 4])
+            _ace = Tower("ace", 1066, 407)
+            _ace.place(upgrade=[0, 0, 3])
+            _ace.upgrade_to(path2=2)
+            Tower("alch", 1088, 303).place(upgrade=[4, 2, 0])
         elif self.map == "workshop":
             Tower("hero", 513, 411).place_money(765, targeting=3)
             Game.game_play()
