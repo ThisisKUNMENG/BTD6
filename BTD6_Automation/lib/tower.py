@@ -61,10 +61,22 @@ class Tower:
         else:
             self.money = 0
 
-    def place(self, **kwargs):
+    def place(self, upgrade=None, targeting=0, money_t=0):
+        """
+        place the tower at the chosen location.
+        :param upgrade: upgrade the tower to [x, y, z], note this upgrade method only supports upgrading the tower from
+        path 1 to path 3 in a sequence. Default is [0, 0, 0], which does not upgrade.
+        If you want to upgrade in a specific order, use upgrade_with_order function.
+        :param targeting: change targeting. Default is 0.
+        :param money_t: If the tower money changes (for example military monkey's price reduction
+        due to monkey knowledge), you can specify the money needed to place the tower.
+        :return:
+        """
+        if upgrade is None:
+            upgrade = [0, 0, 0]
         sleep(0.1)
-        if "money" in kwargs.keys():
-            while get_money() < kwargs["money"]:
+        if money_t != 0:
+            while get_money() < money_t:
                 sleep(3)
         else:
             while get_money() < self.money:
@@ -76,18 +88,15 @@ class Tower:
         sleep(0.3)
         click()
         sleep(0.2)
-        if "upgrade" in kwargs.keys() or "targeting" in kwargs.keys():
-            click()
-            sleep(0.1)
-            if "upgrade" in kwargs.keys():
-                logger.debug("upgrade %s to [%d, %d, %d]", self.name,
-                            kwargs["upgrade"][0], kwargs["upgrade"][1], kwargs["upgrade"][2])
-                self._upgrade(kwargs["upgrade"][0], kwargs["upgrade"][1], kwargs["upgrade"][2])
-            if "targeting" in kwargs.keys():
-                logger.debug("change %s targeting by %d steps", self.name, kwargs["targeting"])
-                self.targeting(kwargs["targeting"])
-            click()
-            sleep(0.3)
+        click()
+        sleep(0.1)
+        logger.debug("upgrade %s to [%d, %d, %d]", self.name, upgrade[0], upgrade[1], upgrade[2])
+        self._upgrade(upgrade[0], upgrade[1], upgrade[2])
+        logger.debug("change %s targeting by %d steps", self.name, targeting)
+        self.targeting(targeting)
+        click()
+        sleep(0.3)
+        return self
 
     def upgrade_to(self, path1=0, path2=0, path3=0):
         logger.debug("upgrade %s by [%d, %d, %d]", self.name, path1, path2, path3)
@@ -99,6 +108,7 @@ class Tower:
         self._upgrade(path1, path2, path3)
         click()
         sleep(0.2)
+        return self
 
     # def place_when(self, tower, path):
     #     sleep(0.1)
@@ -116,7 +126,7 @@ class Tower:
     def place_money(self, amount, **kwargs):
         """
         a function to place tower when money is sufficient.
-        NOTE: this is an outdated function, please use Tower.place(money=) to set money.
+        NOTE: this function is deprecated, please use Tower.place(money=) to set money.
 
         :param amount: how much money that are needed to place the tower
         :param kwargs: upgrade or/and targeting
@@ -131,6 +141,7 @@ class Tower:
             self.place(targeting=kwargs["targeting"])
         else:
             self.place()
+        return self
 
     def upgrade_with_order(self, order):
         logger.debug(f"upgrade {self.name} with order {order}")
@@ -149,8 +160,13 @@ class Tower:
                 self._upgrade(0, 0, 1)
         click()
         sleep(0.1)
+        return self
 
     def sell(self):
+        """
+        sell the tower
+        :return:
+        """
         logger.debug("sell %s", self.name)
         sleep(0.1)
         moveTo(self.x, self.y)
@@ -160,13 +176,13 @@ class Tower:
         press(hotkey["sell"])
         sleep(0.1)
 
-    @staticmethod
-    def targeting(to):
+    def targeting(self, to):
         sleep(0.1)
         while to != 0:
             press(hotkey["target"])
             sleep(0.05)
             to -= 1
+        return self
 
     def change_targeting(self, to):
         logger.debug("change %s targeting by %d steps", self.name, to)
@@ -181,6 +197,7 @@ class Tower:
             to -= 1
         click()
         sleep(0.1)
+        return self
 
     def _upgrade(self, path1, path2, path3):
         while path1 != 0:
