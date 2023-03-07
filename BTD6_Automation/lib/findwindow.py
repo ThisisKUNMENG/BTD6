@@ -11,13 +11,14 @@ logger = logging.getLogger()
 
 
 def get_window():
-    # 获取句柄
+    """
+    find BTD6 window
+    BTD6 window size must be 1600*900
+    """
     hwnd = win32gui.FindWindow(classname, titlename)
     if hwnd:
-        # 获取窗口左上角和右下角坐标
         left, top, right, bottom = win32gui.GetWindowRect(hwnd)
-        logging.info("BTD6 on screen, position at: %d, %d, %d, %d", left, top, right, bottom)
-        # print(right - left, bottom - top)
+        logging.info("BTD6 on screen, proceeding", left, top, right, bottom)
     else:
         logging.error("please open BTD6")
         sys.exit(200)
