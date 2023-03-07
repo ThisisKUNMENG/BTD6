@@ -5,6 +5,10 @@ from .tower import *
 
 
 class Collection:
+    """
+    grind collection event (expert map easy mode)
+    use `Collection("easy").grind()` to start
+    """
     def __init__(self, difficulty):
         self.difficulty = difficulty
         self.map = ""

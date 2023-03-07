@@ -11,6 +11,9 @@ def varify_race():
 
 
 def race_entry():
+    """
+    enter a race and then exit, this is to get bloontona500 achievement.
+    """
     while varify_race():
         sleep(1)
     moveTo(1528, 339)
