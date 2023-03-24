@@ -57,6 +57,7 @@ class Tower:
             try:
                 self.money = tower_money[name]
             except Exception as e:
+                print(name)
                 print("error", e)
         else:
             self.money = 0

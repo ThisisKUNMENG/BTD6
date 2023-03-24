@@ -7,6 +7,7 @@ from pydirectinput import press
 from PIL.ImageGrab import grab
 import numpy as np
 import easyocr
+import json
 
 # __all__ = ["tower_money", "to_front", "Game", "get_money", "GameError", "check"]
 
@@ -336,4 +337,5 @@ def collect():
     sleep(0.1)
     click()
     sleep(1)
+
 

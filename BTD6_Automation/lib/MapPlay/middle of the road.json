@@ -1,0 +1,124 @@
+{
+  "easy standard": {
+    "Tower": {
+      "dart": {
+        "name": "dart",
+        "pos": [
+          397,
+          365
+        ]
+      },
+      "ninja": {
+        "name": "ninja",
+        "pos": [
+          397,
+          440
+        ]
+      },
+      "alch": {
+        "name": "alch",
+        "pos": [
+          397,
+          530
+        ]
+      }
+    },
+    "sequence": [
+      {
+        "name": "dart",
+        "func": "place",
+        "arg": {}
+      },
+      "Play",
+      {
+        "name": "ninja",
+        "func": "place",
+        "arg": {
+          "upgrade": [3,0,1]
+        }
+      },
+      {
+        "name": "alch",
+        "func": "place",
+        "arg": {
+          "upgrade": [3,0,1]
+        }
+      },
+      {
+        "name": "ninja",
+        "func": "upgrade_to",
+        "arg": {
+          "path1": 1
+        }
+      },
+      {
+        "name": "alch",
+        "func": "upgrade_to",
+        "arg": {
+          "path1": 1
+        }
+      }
+    ]
+  },
+  "hard standard": {
+    "Tower": {
+      "dart": {
+        "name": "dart",
+        "pos": [
+          397,
+          365
+        ]
+      },
+      "ninja": {
+        "name": "ninja",
+        "pos": [
+          397,
+          440
+        ]
+      },
+      "alch": {
+        "name": "alch",
+        "pos": [
+          397,
+          530
+        ]
+      }
+    },
+    "sequence": [
+      {
+        "name": "dart",
+        "func": "place",
+        "arg": {}
+      },
+      "Play",
+      {
+        "name": "ninja",
+        "func": "place",
+        "arg": {
+          "upgrade": [3,0,1]
+        }
+      },
+      {
+        "name": "alch",
+        "func": "place",
+        "arg": {
+          "upgrade": [3,0,1]
+        }
+      },
+      {
+        "name": "ninja",
+        "func": "upgrade_to",
+        "arg": {
+          "path1": 1
+        }
+      },
+      {
+        "name": "alch",
+        "func": "upgrade_to",
+        "arg": {
+          "path1": 1
+        }
+      }
+    ]
+  }
+}
