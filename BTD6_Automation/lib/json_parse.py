@@ -30,6 +30,9 @@ def _mode_play(map_play, m, mode):
         elif j["func"] == "upgrade_to":
             ar = _parse_arg(j["arg"], "upgrade_to")
             tower_dict[j["name"]].upgrade_to(path1=ar[0], path2=ar[1], path3=ar[2])
+        elif j["func"] == "targeting":
+            ar = _parse_arg(j["arg"], "targeting")
+            tower_dict[j["name"]].targeting(to=ar)
 
 
 def _parse_arg(a, func):
@@ -52,10 +55,9 @@ def _parse_arg(a, func):
                 ar[1] = a[i]
             if i == "path3":
                 ar[2] = a[i]
+    if func == "targeting":
+        ar = a["to"]
+
     return ar
 
 
-
-if __name__ == "__main__":
-    to_front()
-    json_to_play("middle of the road", "easy standard")
