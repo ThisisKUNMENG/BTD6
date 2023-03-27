@@ -6,7 +6,7 @@ import logging
 
 classname = "UnityWndClass"
 titlename = "BloonsTD6"
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s: %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s: %(message)s')
 logger = logging.getLogger()
 
 
@@ -35,7 +35,7 @@ left, top, right, bottom = get_window()
 
 left = left + 7
 
-money = [left+305, top+46, left+400, top+84]
+money = [left+305, top+48, left+400, top+83]
 
 if __name__ == "__main__":
     print(left, top, right, bottom)

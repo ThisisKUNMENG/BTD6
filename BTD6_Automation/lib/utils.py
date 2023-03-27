@@ -1,12 +1,14 @@
 import sys
 from .findwindow import *
 from .dicts import *
-from time import sleep
+from time import sleep, time
 from pyautogui import moveTo, click
 from pydirectinput import press
 from PIL.ImageGrab import grab
 import numpy as np
 import easyocr
+from PIL import ImageOps
+import json
 
 # __all__ = ["tower_money", "to_front", "Game", "get_money", "GameError", "check"]
 
@@ -294,11 +296,12 @@ class Game:
 @check()
 def get_money():
     c = grab(money)
+    c = ImageOps.grayscale(c)
     im = np.array(c)
-    text = reader.readtext(im, allowlist="0123456789", detail=0)
+    text = reader.readtext(im, allowlist="0123456789,", detail=0)
     m = 0
     try:
-        m = int(text[0])
+        m = int(text[0].replace(",", ""))
     except Exception as e:
         logger.warning("get money error ", text)
     logger.debug("current money: %d", m)
@@ -336,4 +339,5 @@ def collect():
     sleep(0.1)
     click()
     sleep(1)
+
 

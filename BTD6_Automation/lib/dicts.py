@@ -44,6 +44,13 @@ maps = {
             "name": "scrapyard",
             "level": "beginner",
             "page": 1,
+            "pos": 6
+        },
+    "middle of the road":
+        {
+            "name": "middle of the road",
+            "level": "beginner",
+            "page": 1,
             "pos": 4
         },
     "balance":

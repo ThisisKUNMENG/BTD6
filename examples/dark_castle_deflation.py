@@ -32,6 +32,5 @@ if __name__ == "__main__":
         print("repeated times: " + str(loop))
         dark_castle.ready()
         dark_castle_deflation()
-        dark_castle.check_upgrade()
         dark_castle.game_exit()
         loop += 1

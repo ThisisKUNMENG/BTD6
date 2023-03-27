@@ -26,7 +26,7 @@ def dark_castle_chimps():
     sub1.place()
     Game.game_play()
     dart2.place_money(225, targeting=1)
-    obyn.place(money=700)
+    obyn.place(money_t=700)
     sub1.upgrade_with_order([1, 1, 3, 3])
     dart1.upgrade_to(path3=2)
     sub1.upgrade_to(path3=2)
