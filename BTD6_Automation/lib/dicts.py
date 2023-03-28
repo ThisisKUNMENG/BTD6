@@ -53,6 +53,13 @@ maps = {
             "page": 1,
             "pos": 4
         },
+    "cubism":
+        {
+            "name": "cubism",
+            "level": "beginner",
+            "page": 3,
+            "pos": 6
+        },
     "balance":
         {
             "name": "balance",

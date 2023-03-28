@@ -1,0 +1,20 @@
+{
+  "primary": {
+    "Tower": {
+      "dart1": {"name": "dart", "pos": [556,465]},
+      "hero": {"name": "hero", "pos": [1233,275]},
+      "bomb": {"name": "bomb", "pos": [434,499]},
+      "dart2": {"name": "dart", "pos": [613,586]}
+    },
+    "sequence": [
+      {"name": "dart1", "func": "place", "arg": {}},
+      "Play",
+      {"name": "hero", "func": "place", "arg": {"targeting": 3, "money": 765}},
+      {"name": "dart1", "func": "upgrade_to", "arg": {"path2": 2, "path3": 3}},
+      {"name": "bomb", "func": "place", "arg": {"upgrade": [2,0,3]}},
+      {"name": "dart1", "func": "upgrade_to", "arg": {"path3": 1}},
+      {"name": "bomb", "func": "upgrade_to", "arg": {"path3": 1}},
+      {"name": "dart2", "func": "place", "arg": {"upgrade": [0,2,3]}}
+    ]
+  }
+}
