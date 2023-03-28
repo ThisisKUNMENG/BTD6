@@ -13,7 +13,8 @@ logger = logging.getLogger()
 def get_window():
     """
     find BTD6 window
-    BTD6 window size must be 1600*900
+
+    NOTE: BTD6 window size must be 1600*900
     """
     hwnd = win32gui.FindWindow(classname, titlename)
     if hwnd:

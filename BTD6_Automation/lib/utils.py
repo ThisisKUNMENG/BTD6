@@ -57,7 +57,7 @@ collection_event = True
 
 def _game_check(b1, b2):
     """
-    check whether the game is lost or victory.
+    check whether the game is lost, victory, or level upgrade.
     """
     text = []
     upgrade = grab([left+701, top+482, left+825, top+526])

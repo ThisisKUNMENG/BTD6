@@ -65,13 +65,13 @@ class Tower:
     def place(self, upgrade=None, targeting=0, money_t=0):
         """
         place the tower at the chosen location.
-        :param upgrade: upgrade the tower to [x, y, z], note this upgrade method only supports upgrading the tower from
-        path 1 to path 3 in a sequence. Default is [0, 0, 0], which does not upgrade.
-        If you want to upgrade in a specific order, use upgrade_with_order function.
-        :param targeting: change targeting. Default is 0.
-        :param money_t: If the tower money changes (for example military monkey's price reduction
-        due to monkey knowledge), you can specify the money needed to place the tower.
-        :return:
+            :param upgrade: upgrade the tower to [x, y, z], note this upgrade method only supports upgrading the tower
+                from path 1 to path 3 in a sequence. Default is [0, 0, 0], which does not upgrade.
+                If you want to upgrade in a specific order, use upgrade_with_order function.
+            :param targeting: change targeting. Default is 0.
+            :param money_t: If the tower money changes (for example military monkey's price reduction
+                due to monkey knowledge), you can specify the money needed to place the tower.
+            :return: self
         """
         if upgrade is None:
             upgrade = [0, 0, 0]
@@ -129,8 +129,8 @@ class Tower:
         a function to place tower when money is sufficient.
         NOTE: this function is deprecated, please use Tower.place(money=) to set money.
 
-        :param amount: how much money that are needed to place the tower
-        :param kwargs: upgrade or/and targeting
+            :param amount: how much money that are needed to place the tower
+            :param kwargs: upgrade or/and targeting
         """
         while get_money() < amount:
             sleep(3)
@@ -166,7 +166,6 @@ class Tower:
     def sell(self):
         """
         sell the tower
-        :return:
         """
         logger.debug("sell %s", self.name)
         sleep(0.1)

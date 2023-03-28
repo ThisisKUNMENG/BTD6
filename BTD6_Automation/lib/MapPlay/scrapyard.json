@@ -110,5 +110,37 @@
         }
       }
     ]
+  },
+  "impoppable": {
+    "Tower": {
+      "dart": {"name": "dart", "pos": [247,280]},
+      "hero": {"name": "hero", "pos": [1242,300]},
+      "ninja": {"name": "ninja", "pos": [470,311]},
+      "alch": {"name": "alch", "pos": [471,408]},
+      "farm1": {"name": "farm", "pos": [1240,833]},
+      "farm2": {"name": "farm", "pos": [1247,690]},
+      "wizard1": {"name": "wizard", "pos": [569,397]},
+      "glue": {"name": "glue", "pos": [565,576]},
+      "druid": {"name": "druid", "pos": [571,523]},
+      "wizard2": {"name": "wizard", "pos": [567,459]}
+    },
+    "sequence": [
+      {"name": "dart", "func": "place", "arg": {}},
+      "Play",
+      {"name": "hero", "func": "place", "arg": {"targeting": 3, "money": 1080}},
+      {"name": "ninja", "func": "place", "arg": {"upgrade": [2,0,1]}},
+      {"name": "alch", "func": "place", "arg": {"upgrade": [2,0,0]}},
+      {"name": "farm1", "func": "place", "arg": {"upgrade": [2,0,3]}},
+      {"name": "ninja", "func": "upgrade_to", "arg": {"path1": 1}},
+      {"name": "alch", "func": "upgrade_to", "arg": {"path1": 1}},
+      {"name": "ninja", "func": "upgrade_to", "arg": {"path1": 1}},
+      {"name": "farm2", "func": "place", "arg": {"upgrade": [2,0,3]}},
+      {"name": "wizard1", "func": "place", "arg": {"upgrade": [4,0,2]}},
+      {"name": "wizard1", "func": "upgrade_to", "arg": {"path1": 1}},
+      {"name": "alch", "func": "upgrade_to", "arg": {"path1": 1}},
+      {"name": "glue", "func": "place","arg": {"upgrade": [0,2,3], "targeting": 3}},
+      {"name": "druid", "func": "place", "arg": {"upgrade": [0,1,5]}},
+      {"name": "wizard2", "func": "place", "arg": {"upgrade": [0,2,5]}}
+    ]
   }
 }
