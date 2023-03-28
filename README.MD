@@ -8,8 +8,8 @@
 
 ## Guide for BTD6 Automation
 
-* with `Game` class, you can control and automate the game page behavior in BTD6.
-* with `Tower` class, you can develop your own strategy for a map and mode in BTD6 that has 99.99% reproducibility (there might have RNG).
+* With `Game` class, you can control and automate the game page behavior in BTD6.
+* With `Tower` class, you can develop your own strategy for a map and mode in BTD6 that has 99.99% reproducibility (there might have RNG).
 
 ### Requirements
 
@@ -59,8 +59,9 @@
       * `sell`: sell the tower
 
 * `json_to_play`: you can store game strategy into a json file, and you play the game with given json file.
-  * the package provides example json files in `BTD6_Automation\lib\MapPlay\{map name}.json`
-  * you can use `("monkey meadow", "easy", "BTD6_Automation\lib\MapPlay\monkey meadow.json")` to implement strategy
+  * The package provides example json files in `BTD6_Automation\lib\MapPlay\{map name}.json`
+  * You can use `json_to_play("monkey meadow", "easy")` to implement the example strategy if I have written it.
+  * Otherwise you can write your own strategy and use `json_to_play("monkey meadow", "easy", json_path=YOUR_JSON)` to implement strategy
 
 * class `Collection`: grind collection event
   * IMPORTANT: please disable internet collection, otherwise the create open page will pop up and I have not written a function to close it.

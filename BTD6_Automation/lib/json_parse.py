@@ -6,10 +6,14 @@ import json
 import os
 
 
-def json_to_play(m, mode):
+def json_to_play(m, mode, json_path=None):
     this_dir, _ = os.path.split(__file__)
-    with open(this_dir + "/MapPlay/" + m + ".json", "r") as f:
-        map_play = json.load(f)
+    if json_path is None:
+        with open(this_dir + "/MapPlay/" + m + ".json", "r") as f:
+            map_play = json.load(f)
+    else:
+        with open(json_path, "r") as f:
+            map_play = json.load(f)
     _mode_play(map_play, m, mode)
 
 
