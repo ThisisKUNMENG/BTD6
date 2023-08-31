@@ -14,17 +14,19 @@ class Collection:
         self.map = ""
 
     def _grind_once(self):
-        if check_collection_event():
+        if check_need_collect():
             moveTo(807, 606)
             sleep(0.1)
             click()
             sleep(2)
             collect()
 
+        moveTo(left + 765, top + 56)
+        sleep(0.2)
         click()
         Game.play()
         _to_expert()
-        pos_x, pos_y, page = find_bonus_and_enter()
+        pos_x, pos_y, page = _find_bonus_and_enter()
         self.map = _find_map(pos_x, pos_y, page)
         logger.info("collection bonus map is " + self.map)
         if self.difficulty == "easy":
@@ -74,6 +76,13 @@ class Collection:
             Tower("hero", 513, 411).place_money(765, targeting=3)
             Game.game_play()
             Tower("sniper", 843, 449).place(upgrade=[2, 0, 4])
+        elif self.map == "dark dungeons":
+            Tower("hero", 307, 682).place_money(765, targeting=3)
+            Game.game_play()
+            _ace = Tower("ace", 890, 526)
+            _ace.place(upgrade=[0, 0, 3])
+            _ace.upgrade_to(path2=2)
+            Tower("alch", 857, 424).place(upgrade=[4, 2, 0])
         else:
             raise GameError("map play to be defined")
 
@@ -102,16 +111,14 @@ _x_pos = [593, 946, 1300]
 _y_pos = [271, 542]
 
 
-def find_bonus_and_enter():
+def _find_bonus_and_enter():
     p = grab().load()
     # note expert map
     # TODO black boarder is not considered
     for x in _x_pos:
         for y in _y_pos:
-            if p[left + x, top + y][0] in range(197, 201) and p[left + x, top + y][1] in range(161, 165) and p[left + x, top + y][2] in range(108, 112):
+            if _check_is_bonus(p, x, y):
                 pass
-            elif (x, y) == (593, 271):
-                pass  # pass dark dungeon
             else:
                 moveTo(left + x, top + y)
                 sleep(0.2)
@@ -123,7 +130,7 @@ def find_bonus_and_enter():
     p = grab().load()
     for y in _y_pos:
         for x in _x_pos:
-            if p[left + x, top + y][0] in range(197, 201) and p[left + x, top + y][1] in range(161, 165) and p[left + x, top + y][2] in range(108, 112):
+            if _check_is_bonus(p, x, y):
                 pass
             else:
                 moveTo(left + x, top + y)
@@ -139,3 +146,25 @@ def _find_map(x, y, page):
         if inf["level"] == "expert" and inf["page"] == page and inf["pos"] == ((x + 1) + 3 * y):
             return inf["name"]
     raise GameError("map not found")
+
+
+def _check_is_bonus(p, x, y):
+    return (
+            p[left + x, top + y][0] in range(197, 201) and
+            p[left + x, top + y][1] in range(161, 165) and
+            p[left + x, top + y][2] in range(108, 112)  # normal yellow
+    ) or (
+            p[left + x, top + y][0] in range(180, 189) and
+            p[left + x, top + y][1] in range(200, 215) and
+            p[left + x, top + y][2] in range(105, 125)  # normal silver
+    ) or (
+            p[left + x, top + y][0] in range(210, 230) and
+            p[left + x, top + y][1] in range(130, 150) and
+            p[left + x, top + y][2] in range(10, 25)    # normal bronze
+    ) or (
+            p[left + x, top + y][0] in range(20, 30) and
+            p[left + x, top + y][1] in range(30, 40) and
+            p[left + x, top + y][2] in range(45, 55)    # black border
+    )
+
+

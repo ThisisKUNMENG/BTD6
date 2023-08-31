@@ -74,6 +74,13 @@ maps = {
             "page": 2,
             "pos": 3
         },
+    "dark dungeons":
+        {
+            "name": "dark dungeons",
+            "level": "expert",
+            "page": 1,
+            "pos": 1
+        },
     "sanctuary":
         {
             "name": "sanctuary",

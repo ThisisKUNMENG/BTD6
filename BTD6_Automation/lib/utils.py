@@ -70,7 +70,7 @@ def _game_check(b1, b2):
             click()
             sleep(0.5)
     if b1:
-        p1 = grab([left+715, top+517, left+903, top+548])
+        p1 = grab([left+715, top+547, left+903, top+568])
         p11 = reader.readtext(np.array(p1), blocklist="X0123456789")
         if p11:
             text.append(p11)
@@ -267,7 +267,7 @@ class Game:
     def ready(self):
         sleep(5)
         if collection_event:
-            if check_collection_event():
+            if check_need_collect():
                 moveTo(807, 606)
                 sleep(0.1)
                 click()
@@ -313,18 +313,26 @@ class GameError(RuntimeError):
         self.args = arg
         logger.warning("There is something wrong")
 
-
-def check_collection_event():
-    # note: every collection event vary.
-    # This is the easter collection event
-    sleep(6)
-    if grab([left+604, top+65, left+605, top+66]).load()[0, 0] == (209, 124, 255):
+def check_need_collect():
+    x1, x2 = 614, 852
+    y1, y2 = 57, 113
+    p = grab([left+x1, top+y1, left+x2, top+y2])
+    read = reader.readtext(np.array(p), blocklist="X0123456789", detail=0)
+    if read:
+        read_word = read[0].lower()
+    else:
+        read_word = ""
+    if read_word == "collection":
+        logger.info("need to collect!")
         return True
     else:
         return False
 
 
 def collect():
+    moveTo(left + 250, top + 250)
+    sleep(0.2)
+    click()
     for i in range(5):
         moveTo(left+555+125*i, top+470)
         sleep(0.1)
@@ -339,5 +347,3 @@ def collect():
     sleep(0.1)
     click()
     sleep(1)
-
-

@@ -16,5 +16,23 @@
       {"name": "bomb", "func": "upgrade_to", "arg": {"path3": 1}},
       {"name": "dart2", "func": "place", "arg": {"upgrade": [0,2,3]}}
     ]
+  },
+  "military": {
+    "Tower": {
+      "sub1": {"name": "sub", "pos": [671,306]},
+      "hero": {"name": "hero", "pos": [1233,275]},
+      "sub2": {"name": "sub", "pos": [730,205]},
+      "boat": {"name": "boat", "pos": [800,285]}
+    },
+    "sequence": [
+      {"name": "sub1", "func": "place", "arg": {}},
+      "Play",
+      {"name": "hero", "func": "place", "arg": {"targeting": 3, "money": 900}},
+      {"name": "sub1", "func": "upgrade_to", "arg": {"path1": 2, "path3": 3}},
+      {"name": "boat", "func": "place", "arg": {"upgrade": [0,2,2]}},
+      {"name": "boat", "func": "upgrade_to", "arg": {"path2": 2}},
+      {"name": "sub2", "func": "place", "arg": {"upgrade": [2,0,4]}},
+      {"name": "sub1", "func": "upgrade_to", "arg": {"path3": 2}}
+    ]
   }
 }
