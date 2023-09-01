@@ -9,20 +9,17 @@ class Collection:
     grind collection event (expert map easy mode)
     use `Collection("easy").grind()` to start
     """
-    def __init__(self, difficulty):
+    def __init__(self, difficulty: str):
         self.difficulty = difficulty
         self.map = ""
 
-    def _grind_once(self):
+    def _grind_once(self) -> None:
         if check_need_collect():
-            moveTo(807, 606)
-            sleep(0.1)
-            click()
-            sleep(2)
+            move_to(807, 606)
+            click(wait=2)
             collect()
 
-        moveTo(left + 765, top + 56)
-        sleep(0.2)
+        move_to(765, 56)
         click()
         Game.play()
         _to_expert()
@@ -31,20 +28,15 @@ class Collection:
         logger.info("collection bonus map is " + self.map)
         if self.difficulty == "easy":
             g = Game(self.map, "easy standard")
-            moveTo(left + 530, top + 390)
-            sleep(2)
-            click()
-            sleep(1)
-            moveTo(left + modes["easy standard"]["cord"][0], top + modes["easy standard"]["cord"][1])
-            sleep(2)
-            click()
-            sleep(9)
-            click()
-            sleep(5)
+            move_to(530, 390, wait=2)
+            click(wait=1)
+            move_to(modes["easy standard"]["cord"][0], modes["easy standard"]["cord"][1], wait=2)
+            click(wait=9)
+            click(wait=5)
             self._easy_play()
             g.game_exit()
 
-    def _easy_play(self):
+    def _easy_play(self) -> None:
         if self.map == "infernal" or self.map == "ouch" or self.map == "bloody puddles" or self.map == "muddy puddles":
             Tower("hero", 1336, 450).place_money(765, targeting=3)
             Game.game_play()
@@ -86,7 +78,7 @@ class Collection:
         else:
             raise GameError("map play to be defined")
 
-    def grind(self, times=-1):
+    def grind(self, times: int = -1) -> None:
         _times = 0
         if times == -1:
             while True:
@@ -100,30 +92,25 @@ class Collection:
                 self._grind_once()
 
 
-def _to_expert():
-    moveTo(left + 1111, top + 850)
-    sleep(0.2)
-    click()
-    sleep(2)
+def _to_expert() -> None:
+    move_to(1111, 850)
+    click(wait=2)
 
 
 _x_pos = [593, 946, 1300]
 _y_pos = [271, 542]
 
 
-def _find_bonus_and_enter():
+def _find_bonus_and_enter() -> tuple[int, int, int]:
     p = grab().load()
     # note expert map
-    # TODO black boarder is not considered
     for x in _x_pos:
         for y in _y_pos:
             if _check_is_bonus(p, x, y):
                 pass
             else:
-                moveTo(left + x, top + y)
-                sleep(0.2)
-                click()
-                sleep(2)
+                move_to(x, y)
+                click(wait=2)
                 return _x_pos.index(x), _y_pos.index(y), 1
     click()
     sleep(2)
@@ -133,38 +120,36 @@ def _find_bonus_and_enter():
             if _check_is_bonus(p, x, y):
                 pass
             else:
-                moveTo(left + x, top + y)
-                sleep(0.2)
-                click()
-                sleep(2)
+                move_to(x, y)
+                click(wait=2)
                 return _x_pos.index(x), _y_pos.index(y), 2
     raise GameError("can not find a map with bonus")
 
 
-def _find_map(x, y, page):
+def _find_map(x, y, page) -> str:
     for inf in maps.values():
         if inf["level"] == "expert" and inf["page"] == page and inf["pos"] == ((x + 1) + 3 * y):
             return inf["name"]
     raise GameError("map not found")
 
 
-def _check_is_bonus(p, x, y):
+def _check_is_bonus(p, x, y) -> bool:
     return (
-            p[left + x, top + y][0] in range(197, 201) and
-            p[left + x, top + y][1] in range(161, 165) and
-            p[left + x, top + y][2] in range(108, 112)  # normal yellow
+            p[LEFT + x, TOP + y][0] in range(197, 201) and
+            p[LEFT + x, TOP + y][1] in range(161, 165) and
+            p[LEFT + x, TOP + y][2] in range(108, 112)  # normal yellow
     ) or (
-            p[left + x, top + y][0] in range(180, 189) and
-            p[left + x, top + y][1] in range(200, 215) and
-            p[left + x, top + y][2] in range(105, 125)  # normal silver
+            p[LEFT + x, TOP + y][0] in range(180, 189) and
+            p[LEFT + x, TOP + y][1] in range(200, 215) and
+            p[LEFT + x, TOP + y][2] in range(105, 125)  # normal silver
     ) or (
-            p[left + x, top + y][0] in range(210, 230) and
-            p[left + x, top + y][1] in range(130, 150) and
-            p[left + x, top + y][2] in range(10, 25)    # normal bronze
+            p[LEFT + x, TOP + y][0] in range(210, 230) and
+            p[LEFT + x, TOP + y][1] in range(130, 150) and
+            p[LEFT + x, TOP + y][2] in range(10, 25)    # normal bronze
     ) or (
-            p[left + x, top + y][0] in range(20, 30) and
-            p[left + x, top + y][1] in range(30, 40) and
-            p[left + x, top + y][2] in range(45, 55)    # black border
+            p[LEFT + x, TOP + y][0] in range(20, 30) and
+            p[LEFT + x, TOP + y][1] in range(30, 40) and
+            p[LEFT + x, TOP + y][2] in range(45, 55)    # black border
     )
 
 

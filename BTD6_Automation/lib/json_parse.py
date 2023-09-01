@@ -1,9 +1,10 @@
-from .findwindow import *
+import json
+import os
+
+from .entry_point import *
 from .dicts import *
 from .tower import Tower
 from .utils import *
-import json
-import os
 
 
 def json_to_play(m, mode, json_path=None):

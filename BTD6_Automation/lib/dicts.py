@@ -1,4 +1,6 @@
-# This module stores the stats of the game.
+"""
+This module stores the stats of the game.
+"""
 
 hotkey = {
     "dart": "q",

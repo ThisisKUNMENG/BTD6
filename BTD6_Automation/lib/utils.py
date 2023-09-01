@@ -1,14 +1,11 @@
-import sys
-from .findwindow import *
-from .dicts import *
-from time import sleep, time
-from pyautogui import moveTo, click
-from pydirectinput import press
-from PIL.ImageGrab import grab
+from typing import Callable
+
 import numpy as np
 import easyocr
 from PIL import ImageOps
-import json
+
+from .entry_point import *
+from .dicts import *
 
 # __all__ = ["tower_money", "to_front", "Game", "get_money", "GameError", "check"]
 
@@ -55,27 +52,25 @@ collection_event = True
 #     pass
 
 
-def _game_check(b1, b2):
+def _game_check(b1: bool, b2: bool) -> bool:
     """
     check whether the game is lost, victory, or level upgrade.
     """
     text = []
-    upgrade = grab([left+701, top+482, left+825, top+526])
+    upgrade = grab(701, 482, 825, 526)
     upgrade1 = reader.readtext(np.array(upgrade))
     if upgrade1:
         if upgrade1[0][1] == "Level" or upgrade1[0][1] == "LeveL":
             logger.info("Upgrade!")
             click()
-            sleep(0.6)
             click()
-            sleep(0.5)
     if b1:
-        p1 = grab([left+715, top+547, left+903, top+568])
+        p1 = grab(715, 547, 903, 568)
         p11 = reader.readtext(np.array(p1), blocklist="X0123456789")
         if p11:
             text.append(p11)
     if b2:
-        p2 = grab([left + 640, top + 573, left + 957, top + 616])
+        p2 = grab(640, 573, 957, 616)
         p22 = reader.readtext(np.array(p2), blocklist="X0123456789")
         if p22:
             text.append(p22)
@@ -100,9 +95,9 @@ def _game_check(b1, b2):
     return True
 
 
-def check(lose=True, victory=True):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
+def check(lose: bool = True, victory: bool = True) -> Callable:
+    def decorator(func: Callable) -> Callable:
+        def wrapper(*args, **kwargs) -> Callable:
             global check_for_insta
             _game_check(lose | victory, check_for_insta)
             return func(*args, **kwargs)
@@ -110,81 +105,58 @@ def check(lose=True, victory=True):
     return decorator
 
 
-def to_front():
+def to_front() -> None:
     logger.info("letting the BTD6 window be at front")
-    moveTo(left+400, top+400)
-    sleep(0.1)
+    move_to(400, 400)
+    click(wait=0.1)
     click()
-    sleep(0.1)
-    click()
-    sleep(0.5)
 
 
-def _to_map(m):
+def _to_map(m: dict) -> None:
     logger.info("entering the map %s", m["name"])
     page = m["page"] - 1
     # to level
     if m["level"] == "expert":
-        moveTo(left + 1111, top + 850)
-        sleep(0.2)
-        click()
-        sleep(2)
+        move_to(1111, 850)
+        click(wait=2)
     elif m["level"] == "advanced":
-        moveTo(left + 900, top + 850)
-        sleep(0.2)
-        click()
-        sleep(2)
+        move_to(900, 850)
+        click(wait=2)
     elif m["level"] == "intermediate":
-        moveTo(left + 700, top + 850)
-        sleep(0.2)
-        click()
-        sleep(2)
+        move_to(700, 850)
+        click(wait=2)
     elif m["level"] == "beginner":
-        moveTo(left + 480, top + 850)
+        move_to(480, 850)
         sleep(0.2)
-        # click()
-        # sleep(2)
     else:
         sys.exit(303)
     # to page
     while page != 0:
-        click()
-        sleep(2)
+        click(wait=2)
         page -= 1
     # get in map
-    moveTo(left + pos_loc[m["pos"]-1][0], top + pos_loc[m["pos"]-1][1])
-    sleep(2)
-    click()
-    sleep(1)
+    move_to(pos_loc[m["pos"] - 1][0], pos_loc[m["pos"] - 1][1], wait=2)
+    click(wait=1)
 
 
-def _to_mode(mode):
+def _to_mode(mode: str) -> None:
     logger.debug("entering the mode %s", modes[mode]["difficulty"])
     if modes[mode]["difficulty"] == "easy":
-        moveTo(left + 530, top + 390)
-        sleep(2)
-        click()
-        sleep(1)
+        move_to(530, 390, wait=2)
+        click(wait=1)
     elif modes[mode]["difficulty"] == "medium":
-        moveTo(left + 800, top + 390)
-        sleep(2)
-        click()
-        sleep(1)
+        move_to(800, 390, wait=2)
+        click(wait=1)
     elif modes[mode]["difficulty"] == "hard" or modes[mode]["difficulty"] == "impoppable":
-        moveTo(left + 1075, top + 390)
-        sleep(2)
-        click()
-        sleep(1)
-    moveTo(left + modes[mode]["cord"][0], top + modes[mode]["cord"][1])
-    sleep(2)
-    click()
-    sleep(9)
-    click()
-    sleep(5)
+        move_to(1075, 390, wait=2)
+        click(wait=1)
+    move_to(modes[mode]["cord"][0], modes[mode]["cord"][1], wait=2)
+    click(wait=9)
+    click(wait=5)
 
 
 class Game:
-    def __init__(self, m, mode):
+    def __init__(self, m: str, mode: str):
         if m not in maps:
             sys.exit(301)
         if mode not in modes:
@@ -199,103 +171,84 @@ class Game:
             tower_money[i] = tower_money_all[i][self.difficulty]
 
     @staticmethod
-    def game_play():
+    def game_play() -> None:
         logger.info("game starts")
         sleep(0.1)
         press("space")
-        sleep(0.1)
         press("space")
-        sleep(0.1)
 
-    def game_exit(self):
+    def game_exit(self) -> None:
         self._vic()
         self._to_home()
 
     @staticmethod
-    def _vic():
+    def _vic() -> None:
         global check_for_insta
         while _game_check(True, check_for_insta):
             pass
-        moveTo(left + 400, top + 400)
-        sleep(2)
-        click()
-        sleep(5)
-        moveTo(left+800, top+800)
-        sleep(0.5)
-        click()
-        sleep(5)
+        move_to(400, 400, wait=2)
+        click(wait=5)
+        move_to(800, 800, wait=0.5)
+        click(wait=5)
 
     @staticmethod
-    def _to_home():
-        moveTo(left+580, top+733)
-        sleep(0.5)
-        click()
-        sleep(2)
-        click()
-        sleep(4)
+    def _to_home() -> None:
+        move_to(580, 733, wait=0.5)
+        click(wait=2)
+        click(wait=4)
 
-    def free_play(self):
+    def free_play(self) -> None:
         self._vic()
         self._to_free()
         global check_for_insta
         check_for_insta = True
 
     @staticmethod
-    def _to_free():
-        moveTo(left+1025, top+733)
-        sleep(0.5)
-        click()
-        sleep(2)
-        click()
-        sleep(2)
+    def _to_free() -> None:
+        move_to(1025, 733, wait=0.5)
+        click(wait=2)
+        click(wait=2)
 
     @staticmethod
-    def play():
+    def play() -> None:
         sleep(5)
-        moveTo(left+700, top+850)
-        sleep(0.5)
-        click()
-        sleep(4)
+        move_to(700, 850)
+        click(wait=4)
 
-    def to_map(self):
+    def to_map(self) -> None:
         _to_map(self.map)
         sleep(1)
 
-    def to_mode(self):
+    def to_mode(self) -> None:
         _to_mode(self.mode)
 
-    def ready(self):
+    def ready(self) -> None:
         sleep(5)
         if collection_event:
             if check_need_collect():
-                moveTo(807, 606)
-                sleep(0.1)
-                click()
-                sleep(2)
+                move_to(807, 606)
+                click(wait=2)
                 collect()
         self.play()
         self.to_map()
         self.to_mode()
 
     @staticmethod
-    def lose_home():
-        moveTo(left+600, top+700)
-        sleep(0.5)
-        click()
-        sleep(4)
+    def lose_home() -> None:
+        move_to(600, 700, wait=0.5)
+        click(wait=4)
 
     @staticmethod
-    def lose_restart():
+    def lose_restart() -> None:
         # TODO to be finished
-        moveTo(left+800, top+700)
-        sleep(0.5)
-        click()
-        sleep(4)
+        move_to(800, 700, wait=0.5)
+        click(wait=4)
 
 
 @check()
-def get_money():
-    c = grab(money)
+def get_money() -> int:
+    money_pos = [305, 48, 400, 83]
+    c = grab(money_pos)
     c = ImageOps.grayscale(c)
     im = np.array(c)
     text = reader.readtext(im, allowlist="0123456789,", detail=0)
@@ -313,10 +266,10 @@ class GameError(RuntimeError):
         self.args = arg
         logger.warning("There is something wrong")
 
-def check_need_collect():
+def check_need_collect() -> bool:
     x1, x2 = 614, 852
     y1, y2 = 57, 113
-    p = grab([left+x1, top+y1, left+x2, top+y2])
+    p = grab(x1, y1, x2, y2)
     read = reader.readtext(np.array(p), blocklist="X0123456789", detail=0)
     if read:
         read_word = read[0].lower()
@@ -330,20 +283,13 @@ def check_need_collect():
 
 
 def collect():
-    moveTo(left + 250, top + 250)
-    sleep(0.2)
+    move_to(250, 250)
     click()
     for i in range(5):
-        moveTo(left+555+125*i, top+470)
-        sleep(0.1)
-        click()
-        sleep(1)
-        click()
-        sleep(1)
+        move_to(555 + 125 * i, 470)
+        click(wait=1)
+        click(wait=1)
     sleep(0.5)
-    click()
-    sleep(1)
-    moveTo(61, 73)
-    sleep(0.1)
-    click()
-    sleep(1)
+    click(wait=1)
+    move_to(61, 73)
+    click(wait=1)
