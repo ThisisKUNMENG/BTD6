@@ -1,13 +1,12 @@
 import json
 import os
+from typing import Optional, Union
 
-from .entry_point import *
-from .dicts import *
 from .tower import Tower
 from .utils import *
 
 
-def json_to_play(m, mode, json_path=None):
+def json_to_play(m: str, mode: str, json_path: Optional[str, bytes, os.PathLike] = None) -> None:
     this_dir, _ = os.path.split(__file__)
     if json_path is None:
         with open(this_dir + "/MapPlay/" + m + ".json", "r") as f:
@@ -18,7 +17,7 @@ def json_to_play(m, mode, json_path=None):
     _mode_play(map_play, m, mode)
 
 
-def _mode_play(map_play, m, mode):
+def _mode_play(map_play: dict, m: str, mode: str) -> None:
     game = Game(m, mode)
     mode_play_j = map_play[mode]
     # create dicts for each tower and call them to place/upgrade
@@ -40,7 +39,7 @@ def _mode_play(map_play, m, mode):
             tower_dict[j["name"]].targeting(to=ar)
 
 
-def _parse_arg(a, func):
+def _parse_arg(a: dict, func: str) -> Union[list, int]:
     ar = []
     if func == "place":
         ar = [None, 0, 0]
