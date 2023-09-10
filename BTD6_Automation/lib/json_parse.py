@@ -1,12 +1,12 @@
 import json
 import os
-from typing import Optional, Union
+from typing import Union
 
 from .tower import Tower
 from .utils import *
 
 
-def json_to_play(m: str, mode: str, json_path: Optional[str, bytes, os.PathLike] = None) -> None:
+def json_to_play(m: str, mode: str, json_path: Union[str, bytes, os.PathLike, None] = None) -> None:
     this_dir, _ = os.path.split(__file__)
     if json_path is None:
         with open(this_dir + "/MapPlay/" + m + ".json", "r") as f:

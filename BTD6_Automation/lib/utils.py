@@ -79,19 +79,20 @@ def _game_check(b1: bool, b2: bool) -> bool:
     t = []
     for i in text:
         for j in i:
-            t.append(j[1])
+            t.append(j[1].lower())
     logger.debug("check found: %s", ",".join(t))
     for k in t:
-        if k == "Bloons Leaked":
+        if k == "bloons leaked":
             logger.warning("lost")
             raise GameError("lost")
-        if k == "Generated":
+        if k == "generated":
             logger.info("victory")
             # raise GameError("victory")
             return False
-        if "InSTA" in k:
+        if "insta" in k:
             click()
             logger.info("insta monkey!")
+            click()
     return True
 
 

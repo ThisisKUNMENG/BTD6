@@ -1,0 +1,26 @@
+{
+  "chimps": {
+    "Tower": {
+      "sauda": {"name": "hero", "pos": [702, 344]},
+      "tack1": {"name": "tack", "pos": [701, 492]},
+      "alch1": {"name": "alch", "pos": [818, 362]},
+      "vil1": {"name": "village", "pos": [821, 488]},
+      "druid1": {"name": "druid", "pos": [850, 620]},
+      "alch2": {"name": "alch", "pos": [590, 500]},
+      "sniper1": {"name": "sniper", "pos": [895, 775]}
+    },
+    "sequence": [
+      {"name": "sauda", "func": "place", "arg": {"money": 650}},
+      "Play",
+      {"name": "tack1", "func": "place", "arg": {"upgrade": [2, 0, 2]}},
+      {"name": "tack1", "func": "upgrade_to", "arg": {"path1": 2}},
+      {"name": "alch1", "func": "place", "arg": {"upgrade": [4, 0, 1]}},
+      {"name": "vil1", "func": "place", "arg": {"upgrade": [2, 2, 0]}},
+      {"name": "tack1", "func": "upgrade_to", "arg": {"path1": 1}},
+      {"name": "druid1", "func": "place", "arg": {"upgrade": [2, 5, 0]}},
+      {"name": "vil1", "func": "upgrade_to", "arg": {"path2": 1}},
+      {"name": "alch2", "func": "place", "arg": {"upgrade": [4, 2, 0]}},
+      {"name": "sniper1", "func": "place", "arg": {"upgrade": [4, 2, 0], "targeting": 3}}
+    ]
+  }
+}

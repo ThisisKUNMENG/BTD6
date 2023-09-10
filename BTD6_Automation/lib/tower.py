@@ -1,7 +1,9 @@
 """
 This module is to operate tower actions.
 """
-from typing import Self, Optional
+from __future__ import annotations
+
+from typing import Optional
 
 from .utils import *
 from .dicts import *
@@ -33,7 +35,7 @@ class Tower:
     def place(self,
               upgrade: Optional[list] = None,
               targeting: int = 0,
-              money_t: int = 0) -> Self:
+              money_t: int = 0):
         """
         place the tower at the chosen location.
             :param upgrade: upgrade the tower to [x, y, z], note this upgrade method only supports upgrading the tower
@@ -94,7 +96,7 @@ class Tower:
             click(wait=0.1)
             return False
 
-    def upgrade_to(self, path1: int = 0, path2: int = 0, path3: int = 0) -> Self:
+    def upgrade_to(self, path1: int = 0, path2: int = 0, path3: int = 0):
         logger.debug("upgrade %s by [%d, %d, %d]", self.name, path1, path2, path3)
         sleep(0.1)
         move_to(self.x, self.y, wait=0.1)
@@ -103,7 +105,7 @@ class Tower:
         click(wait=0.2)
         return self
 
-    def place_money(self, amount: int, **kwargs) -> Self:
+    def place_money(self, amount: int, **kwargs):
         """
         a function to place tower when money is sufficient.
         NOTE: this function is deprecated, please use Tower.place(money=) to set money.
@@ -123,7 +125,7 @@ class Tower:
             self.place()
         return self
 
-    def upgrade_with_order(self, order: list) -> Self:
+    def upgrade_with_order(self, order: list) :
         logger.debug(f"upgrade {self.name} with order {order}")
         sleep(0.1)
         move_to(self.x, self.y, wait=0.1)
@@ -149,7 +151,7 @@ class Tower:
         click(wait=0.1)
         press(hotkey["sell"])
 
-    def targeting(self, to: int) -> Self:
+    def targeting(self, to: int):
         sleep(0.1)
         while to != 0:
             press(hotkey["target"], wait=0.05)
