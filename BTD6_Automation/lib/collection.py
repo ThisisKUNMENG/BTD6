@@ -2,6 +2,7 @@
 
 from .utils import *
 from .tower import *
+from .json_parse import json_to_play
 
 
 class Collection:
@@ -75,6 +76,8 @@ class Collection:
             _ace.place(upgrade=[0, 0, 3])
             _ace.upgrade_to(path2=2)
             Tower("alch", 857, 424).place(upgrade=[4, 2, 0])
+        elif self.map == "glacial trail":
+            json_to_play(self.map, "easy standard")
         else:
             raise GameError("map play to be defined")
 

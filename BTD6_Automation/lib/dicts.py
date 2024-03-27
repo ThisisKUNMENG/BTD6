@@ -74,79 +74,85 @@ maps = {
             "name": "dark castle",
             "level": "expert",
             "page": 2,
-            "pos": 3
+            "pos": 4
         },
     "dark dungeons":
         {
             "name": "dark dungeons",
             "level": "expert",
             "page": 1,
-            "pos": 1
+            "pos": 2
         },
     "sanctuary":
         {
             "name": "sanctuary",
             "level": "expert",
             "page": 1,
-            "pos": 2
+            "pos": 3
         },
     "ravine":
         {
             "name": "ravine",
             "level": "expert",
             "page": 1,
-            "pos": 3
+            "pos": 4
         },
     "flooded valley":
         {
             "name": "flooded valley",
             "level": "expert",
             "page": 1,
-            "pos": 4
+            "pos": 5
         },
     "infernal":
         {
             "name": "infernal",
             "level": "expert",
             "page": 1,
-            "pos": 5
+            "pos": 6
         },
     "bloody puddles":
         {
             "name": "bloody puddles",
             "level": "expert",
-            "page": 1,
-            "pos": 6
+            "page": 2,
+            "pos": 1
         },
     "workshop":
         {
             "name": "workshop",
             "level": "expert",
             "page": 2,
-            "pos": 1
+            "pos": 2
         },
     "quad":
         {
             "name": "quad",
             "level": "expert",
             "page": 2,
-            "pos": 2
+            "pos": 3
         },
     "muddy puddles":
         {
             "name": "muddy puddles",
             "level": "expert",
             "page": 2,
-            "pos": 4
+            "pos": 5
         },
     "ouch":
         {
             "name": "ouch",
             "level": "expert",
             "page": 2,
-            "pos": 5
-        }
-
+            "pos": 6
+        },
+    "glacial trail":
+        {
+            "name": "glacial trail",
+            "level": "expert",
+            "page": 1,
+            "pos": 1
+        },
 }
 
 modes = {
