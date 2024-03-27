@@ -196,7 +196,7 @@ class Game:
     def _to_home() -> None:
         move_to(580, 733, wait=0.5)
         click(wait=2)
-        click(wait=4)
+        click(wait=15)
 
     def free_play(self) -> None:
         self._vic()
