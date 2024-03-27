@@ -1,4 +1,15 @@
 {
+  "easy standard": {
+    "Tower": {
+      "hero": {"name": "hero", "pos": [1336, 480]},
+      "sniper": {"name": "sniper", "pos": [1217, 480]}
+    },
+    "sequence": [
+      {"name": "hero", "func": "place", "arg": {"money": 765, "targeting": 3}},
+      "Play",
+      {"name": "sniper", "func": "place", "arg": {"upgrade": [2, 0, 4]}}
+    ]
+  },
   "deflation": {
     "Tower": {
       "ninja1": {"name": "ninja", "pos": [612, 399]},

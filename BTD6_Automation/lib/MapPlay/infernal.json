@@ -1,0 +1,13 @@
+{
+    "easy standard": {
+      "Tower": {
+        "hero": {"name": "hero", "pos": [1336, 450]},
+        "sniper": {"name": "sniper", "pos": [1340, 583]}
+      },
+      "sequence": [
+        {"name": "hero", "func": "place", "arg": {"money": 765, "targeting": 3}},
+        "Play",
+        {"name": "sniper", "func": "place", "arg": {"upgrade": [2, 0, 4]}}
+      ]
+  }
+}
