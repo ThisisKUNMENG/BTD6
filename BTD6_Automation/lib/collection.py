@@ -15,7 +15,7 @@ class Collection:
         self.map = ""
 
     def _grind_once(self) -> None:
-        if check_need_collect():
+        while check_need_collect():
             move_to(807, 606)
             click(wait=2)
             collect()

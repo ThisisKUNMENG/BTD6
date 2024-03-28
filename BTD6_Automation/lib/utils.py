@@ -226,7 +226,7 @@ class Game:
     def ready(self) -> None:
         sleep(5)
         if collection_event:
-            if check_need_collect():
+            while check_need_collect():
                 move_to(807, 606)
                 click(wait=2)
                 collect()
@@ -268,7 +268,7 @@ class GameError(RuntimeError):
         logger.warning("There is something wrong")
 
 def check_need_collect() -> bool:
-    x1, x2 = 614, 852
+    x1, x2 = 852, 987
     y1, y2 = 57, 113
     p = grab(x1, y1, x2, y2)
     read = reader.readtext(np.array(p), blocklist="X0123456789", detail=0)
@@ -276,7 +276,7 @@ def check_need_collect() -> bool:
         read_word = read[0].lower()
     else:
         read_word = ""
-    if read_word == "collection":
+    if read_word == "evenv" or read_word == "event":
         logger.info("need to collect!")
         return True
     else:
@@ -285,7 +285,7 @@ def check_need_collect() -> bool:
 
 def collect():
     move_to(250, 250)
-    click()
+    click(wait=3)
     for i in range(5):
         move_to(555 + 125 * i, 470)
         click(wait=1)
